@@ -3,7 +3,7 @@ package com.pairone.library.service;
 import com.pairone.library.dto.author.AuthorDto;
 import com.pairone.library.dto.book.*;
 import com.pairone.library.entity.*;
-import com.pairone.library.mapper.AuthorMapper;
+import com.pairone.library.mapper.AuthorMappers;
 
 import com.pairone.library.mapper.BookMapper;
 import com.pairone.library.repository.BookRepository;
@@ -25,7 +25,7 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final AuthorService authorService;
-    private final AuthorMapper authorMapper;
+    private final AuthorMappers authorMappers;
     private final BookInfoServiceImpl bookInfoService;
     private final PublisherServiceImpl publisherServiceImpl;
     private final CategoryServiceImpl categoryServiceImpl;
@@ -34,13 +34,13 @@ public class BookServiceImpl implements BookService {
     public BookServiceImpl(BookRepository bookRepository,
                            BookMapper bookMapper,
                            AuthorService authorService,
-                           AuthorMapper authorMapper,
+                           AuthorMappers authorMappers,
                            BookInfoServiceImpl bookInfoService,
                            PublisherServiceImpl publisherServiceImpl, CategoryServiceImpl categoryServiceImpl) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
         this.authorService = authorService;
-        this.authorMapper = authorMapper;
+        this.authorMappers = authorMappers;
         this.bookInfoService = bookInfoService;
         this.publisherServiceImpl = publisherServiceImpl;
         this.categoryServiceImpl = categoryServiceImpl;
@@ -51,7 +51,7 @@ public class BookServiceImpl implements BookService {
         List<AuthorDto> authorDtos = req.getAuthorId().stream()
                 .map(authorService::getAuthorById)
                 .toList();
-        List<Author> authors = authorMapper.mapToEntityList(authorDtos);
+        List<Author> authors = authorMappers.mapToEntityList(authorDtos);
         BookInfo bookInfo = bookInfoService.save(req.getBookinfoId());
         Publisher publisher = publisherServiceImpl.bookServiceGetPublisher(req.getPublisherId());
         Category category = categoryServiceImpl.getCategoryId(req.getCategoryId());
@@ -65,7 +65,7 @@ public class BookServiceImpl implements BookService {
         List<AuthorDto> authorDtos = req.getAuthorId().stream()
                 .map(authorService::getAuthorById)
                 .toList();
-        List<Author> authors = authorMapper.mapToEntityList(authorDtos);
+        List<Author> authors = authorMappers.mapToEntityList(authorDtos);
         BookInfo bookInfo = bookInfoService.save(req.getBookinfoId());
         Publisher publisher = publisherServiceImpl.bookServiceGetPublisher(req.getPublisherId());
         Category category = categoryServiceImpl.getCategoryId(req.getCategoryId());

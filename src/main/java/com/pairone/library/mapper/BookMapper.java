@@ -3,6 +3,7 @@ package com.pairone.library.mapper;
 import com.pairone.library.dto.book.*;
 import com.pairone.library.entity.*;
 import com.pairone.library.service.PublisherServiceImpl;
+import com.pairone.library.service.abstractservice.AuthorService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

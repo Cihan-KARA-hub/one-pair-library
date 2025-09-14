@@ -1,5 +1,5 @@
 package com.pairone.library.service;
-import com.pairone.library.mapper.AuthorMapper;
+import com.pairone.library.mapper.AuthorMappers;
 import com.pairone.library.repository.AuthorRepository;
 import com.pairone.library.service.abstractservice.AuthorService;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,11 @@ import com.pairone.library.entity.Author;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
-    private final AuthorMapper authorMapper;
+    private final AuthorMappers authorMappers;
 
-    public AuthorServiceImpl(AuthorRepository authorRepository, AuthorMapper authorMapper) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, AuthorMappers authorMappers) {
         this.authorRepository = authorRepository;
-        this.authorMapper = authorMapper;
+        this.authorMappers = authorMappers;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class AuthorServiceImpl implements AuthorService {
         author.setFirstname(dto.getFirstname());
         author.setLastname(dto.getLastname());
         Author saved = authorRepository.save(author);
-        return authorMapper.mapToDto(saved);
+        return authorMappers.mapToDto(saved);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class AuthorServiceImpl implements AuthorService {
         author.setFirstname(dto.getFirstname());
         author.setLastname(dto.getLastname());
         Author updated = authorRepository.save(author);
-        return authorMapper.mapToDto(updated);
+        return authorMappers.mapToDto(updated);
     }
 
     @Override
@@ -45,12 +45,12 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto getAuthorById(Integer id) {
-        return authorRepository.findById(id).map(authorMapper::mapToDto).orElse(null);
+        return authorRepository.findById(id).map(authorMappers::mapToDto).orElse(null);
     }
 
     @Override
     public List<AuthorDto> getAllAuthors() {
-        return authorRepository.findAll().stream().map(authorMapper::mapToDto).collect(Collectors.toList());
+        return authorRepository.findAll().stream().map(authorMappers::mapToDto).collect(Collectors.toList());
     }
 
 

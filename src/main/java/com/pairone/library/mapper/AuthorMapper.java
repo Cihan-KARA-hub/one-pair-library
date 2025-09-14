@@ -2,32 +2,21 @@ package com.pairone.library.mapper;
 
 import com.pairone.library.dto.author.AuthorDto;
 import com.pairone.library.entity.Author;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-
-@Component
-public class AuthorMapper {
+import java.util.Optional;
 
 
-    public AuthorDto mapToDto(Author author) {
-        AuthorDto dto = new AuthorDto();
-        dto.setAuthorId(author.getAuthorId());
-        dto.setFirstname(author.getFirstname());
-        dto.setLastname(author.getLastname());
-        return dto;
-    }
+@Mapper(componentModel = "spring")
+public interface AuthorMapper {
+    AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
 
-    public Author MapToEntity(AuthorDto dto) {
-        Author author = new Author();
-        dto.setAuthorId(author.getAuthorId());
-        author.setFirstname(dto.getFirstname());
-        author.setLastname(dto.getLastname());
-        return author;
-    }
-    public List<Author> mapToEntityList(List<AuthorDto> dtoList) {
-        return dtoList.stream()
-                .map(this::MapToEntity)
-                .toList();
-    }
+    Author  MapToEntity(AuthorDto dto);
+
+    AuthorDto mapToDto(Author author);
+
+    List<Author> mapToEntityList(List<AuthorDto> dtoList);
+
 }

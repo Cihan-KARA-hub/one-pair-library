@@ -1,6 +1,6 @@
 package com.pairone.library.dto.book;
 
-import com.pairone.library.dto.bookinfo.BookInfoCreateDto;
+import com.pairone.library.dto.bookinfo.request.BookInfoCreateRequestDto;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public class BookUpdateReq {
     private String name;
     private int pageCount;
     private int editionNo;
-    private BookInfoCreateDto bookinfoId;
+    private BookInfoCreateRequestDto bookinfoId;
     private Integer publisherId;
     private Integer categoryId;
     private List<Integer> authorId;
@@ -54,11 +54,11 @@ public class BookUpdateReq {
         this.editionNo = editionNo;
     }
 
-    public BookInfoCreateDto getBookinfoId() {
+    public BookInfoCreateRequestDto getBookinfoId() {
         return bookinfoId;
     }
 
-    public void setBookinfoId(BookInfoCreateDto bookinfoId) {
+    public void setBookinfoId(BookInfoCreateRequestDto bookinfoId) {
         this.bookinfoId = bookinfoId;
     }
 

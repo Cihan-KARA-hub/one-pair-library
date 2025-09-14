@@ -11,8 +11,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
 
 @Mapper(componentModel = "spring")
 public interface AuthorMapper {
@@ -27,9 +25,10 @@ public interface AuthorMapper {
     AuthorUpdateResponse mapUpdateToDto(Author author);
 
     AuthorCreateResponse mapCreateToDto(Author author);
+
     AuthorDeleteResponse mapToAuthorDelete(Author author);
+
     AuthorGetResponse mapToAuthorGet(Author author);
 
-    List<Author> mapToEntityList(List<AuthorGetResponse> dtoList);
 
 }

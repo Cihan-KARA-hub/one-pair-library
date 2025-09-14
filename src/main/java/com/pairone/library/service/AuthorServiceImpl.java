@@ -61,6 +61,4 @@ public class AuthorServiceImpl implements AuthorService {
         Page<Author> authorPage = authorBusinessRule.findAll(pageable);
         return authorPage.map(authorMappers::mapToAuthorGet);
     }
-
-
 }

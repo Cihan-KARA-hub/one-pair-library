@@ -1,7 +1,6 @@
-package com.pairone.library.dto.bookinfo;
+package com.pairone.library.dto.bookinfo.reponse;
 
-
-public class BookInfoCreateDto {
+public class BookInfoGetResponseDto {
     private Integer bookId;
     private String isbn;
     private String title;
@@ -13,16 +12,16 @@ public class BookInfoCreateDto {
     private String location;
     private String barcode;
 
-    public BookInfoCreateDto(int bookId,
-                             String isbn,
-                             String title,
-                             String status,
-                             String type,
-                             String language,
-                             String condition,
-                             int copyCount,
-                             String location,
-                             String barcode) {
+    public BookInfoGetResponseDto(int bookId,
+                                    String isbn,
+                                    String title,
+                                    String status,
+                                    String type,
+                                    String language,
+                                    String condition,
+                                    int copyCount,
+                                    String location,
+                                    String barcode) {
         this.bookId = bookId;
         this.isbn = isbn;
         this.title = title;

@@ -1,62 +1,22 @@
-package com.pairone.library.entity;
+package com.pairone.library.dto.bookinfo.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-@Entity
-@Table(name = "book_info")
-public class BookInfo {
-    /* isbn varchar
- title varchar
- status varchar
- type varchar
- language varchar
- condition varchar
- copy_count int
- location varchar
- barcode varchar
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BookInfoUpdateRequestDto {
     private Integer bookId;
-    @Column(name = "isbn", nullable = false,unique = true)
     private String isbn;
-    @Column(name = "title", length = 255)
     private String title;
-    @Column(name = "status", nullable = false)
     private String status;
-    @Column(name = "type", nullable = false)
     private String type;
-    @Column(name = "language", length = 3, nullable = false)
     private String language;
-    @Column(name = "condition", nullable = false)
     private String condition;
-    @Column(name = "copy_count")
     private int copyCount;
-    @Column(name = "location", nullable = false)
     private String location;
-    @Column(name = "barcode", length = 13, nullable = false)
     private String barcode;
-    @OneToMany(mappedBy = "BookInfo", cascade = CascadeType.ALL, orphanRemoval = false)
-    @JsonIgnore
-    private List<Book> books = new ArrayList<>();
 
-    public int getCopyCount() {
-        return copyCount;
-    }
-
-    public void setCopyCount(int copyCount) {
-        this.copyCount = copyCount;
-    }
-
-    public int getBookId() {
+    public Integer getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
 
@@ -108,6 +68,14 @@ public class BookInfo {
         this.condition = condition;
     }
 
+    public int getCopyCount() {
+        return copyCount;
+    }
+
+    public void setCopyCount(int copyCount) {
+        this.copyCount = copyCount;
+    }
+
     public String getLocation() {
         return location;
     }
@@ -123,5 +91,4 @@ public class BookInfo {
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
-
 }

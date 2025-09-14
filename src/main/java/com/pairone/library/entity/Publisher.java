@@ -1,8 +1,10 @@
 package com.pairone.library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "publisher")
@@ -14,8 +16,12 @@ public class Publisher {
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
+    @OneToMany(mappedBy = "publisher")
+    @JsonIgnore
+    private List<Book> books = new ArrayList<>();
 
-    public Publisher() {}
+    public Publisher() {
+    }
 
     public Publisher(String name) {
         this.name = name;

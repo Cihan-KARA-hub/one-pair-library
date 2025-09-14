@@ -1,5 +1,6 @@
 package com.pairone.library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.nio.channels.FileChannel;
@@ -14,7 +15,9 @@ public class Category {
     private Integer id;
     @Column(name = "name", nullable = false, length = 50)
     private String name;
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Book> books = new ArrayList<>();
 
     public List<Book> getBooks() {

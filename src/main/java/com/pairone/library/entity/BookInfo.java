@@ -1,6 +1,10 @@
 package com.pairone.library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "book_info")
@@ -36,6 +40,9 @@ public class BookInfo {
     private String location;
     @Column(name = "barcode", length = 13, nullable = false)
     private String barcode;
+    @OneToMany(mappedBy = "BookInfo", cascade = CascadeType.ALL, orphanRemoval = false)
+    @JsonIgnore
+    private List<Book> books = new ArrayList<>();
 
     public int getCopyCount() {
         return copyCount;

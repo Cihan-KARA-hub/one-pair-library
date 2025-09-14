@@ -1,8 +1,13 @@
 package com.pairone.library.controller;
+
+import com.pairone.library.dto.author.request.AuthorCreateRequestDto;
+import com.pairone.library.dto.author.request.AuthorUpdateRequestDto;
+import com.pairone.library.dto.author.response.AuthorCreateResponse;
+import com.pairone.library.dto.author.response.AuthorGetResponse;
+import com.pairone.library.dto.author.response.AuthorUpdateResponse;
 import com.pairone.library.service.abstractservice.AuthorService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import com.pairone.library.dto.author.AuthorDto;
 
 @RestController
 @RequestMapping("/api/authors")
@@ -15,13 +20,13 @@ public class AuthorController {
     }
 
     @PostMapping
-    public AuthorDto createAuthor(@RequestBody AuthorDto dto) {
+    public AuthorCreateResponse createAuthor(@RequestBody AuthorCreateRequestDto dto) {
         return authorService.createAuthor(dto);
     }
 
     @PutMapping("/{id}")
-    public AuthorDto updateAuthor(@PathVariable Integer id, @RequestBody AuthorDto dto) {
-        return authorService.updateAuthor(id, dto);
+    public AuthorUpdateResponse updateAuthor(@RequestBody AuthorUpdateRequestDto dto) {
+        return authorService.updateAuthor(dto);
     }
 
     @DeleteMapping("/{id}")
@@ -30,12 +35,13 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public AuthorDto getAuthorById(@PathVariable Integer id) {
+    public AuthorGetResponse getAuthorById(@PathVariable Integer id) {
         return authorService.getAuthorById(id);
     }
 
     @GetMapping
-    public List<AuthorDto> getAllAuthors() {
-        return authorService.getAllAuthors();
+    public Page<AuthorGetResponse> getAllAuthors(@RequestParam(defaultValue = "5") int size,
+                                                 @RequestParam(defaultValue = "0") int page) {
+        return authorService.getAllAuthors(size, page);
     }
 }

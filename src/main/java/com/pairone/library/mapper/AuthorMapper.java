@@ -1,22 +1,35 @@
 package com.pairone.library.mapper;
 
-import com.pairone.library.dto.author.AuthorDto;
+import com.pairone.library.dto.author.request.AuthorCreateRequestDto;
+import com.pairone.library.dto.author.request.AuthorUpdateRequestDto;
+import com.pairone.library.dto.author.response.AuthorCreateResponse;
+import com.pairone.library.dto.author.response.AuthorDeleteResponse;
+import com.pairone.library.dto.author.response.AuthorGetResponse;
+import com.pairone.library.dto.author.response.AuthorUpdateResponse;
 import com.pairone.library.entity.Author;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-
 
 
 @Mapper(componentModel = "spring")
 public interface AuthorMapper {
     AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
 
-    Author  MapToEntity(AuthorDto dto);
+    @Mapping(target = "books", ignore = true)
+    Author mapToEntity(AuthorCreateRequestDto dto);
 
-    AuthorDto mapToDto(Author author);
+    @Mapping(target = "books", ignore = true)
+    Author mapToEntity(AuthorUpdateRequestDto dto);
 
-    List<Author> mapToEntityList(List<AuthorDto> dtoList);
+    AuthorUpdateResponse mapUpdateToDto(Author author);
+
+    AuthorCreateResponse mapCreateToDto(Author author);
+    AuthorDeleteResponse mapToAuthorDelete(Author author);
+    AuthorGetResponse mapToAuthorGet(Author author);
+
+    List<Author> mapToEntityList(List<AuthorGetResponse> dtoList);
 
 }

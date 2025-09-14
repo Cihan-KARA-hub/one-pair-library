@@ -1,17 +1,11 @@
-package com.pairone.library.dto.author;
+package com.pairone.library.dto.author.request;
 
-public class AuthorDto {
+public class AuthorUpdateRequestDto {
     private Integer authorId;
     private String firstname;
     private String lastname;
 
-    public AuthorDto() {
-    }
-
-    public AuthorDto(Integer authorId, String firstname, String lastname) {
-        this.authorId = authorId;
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public AuthorUpdateRequestDto() {
     }
 
     public Integer getAuthorId() {

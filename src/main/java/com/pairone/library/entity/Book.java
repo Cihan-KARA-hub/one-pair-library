@@ -1,10 +1,8 @@
 package com.pairone.library.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,6 +41,13 @@ public class Book {
     public Book() {
     }
 
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
 
     public int getEditionNo() {
         return editionNo;
@@ -54,6 +59,10 @@ public class Book {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setId(int id) {
@@ -100,11 +109,5 @@ public class Book {
         this.category = category;
     }
 
-    public List<Author> getAuthors() {
-        return authors;
-    }
 
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
-    }
 }

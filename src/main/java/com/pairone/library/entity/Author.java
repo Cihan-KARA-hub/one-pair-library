@@ -2,7 +2,8 @@ package com.pairone.library.entity;
 
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -11,8 +12,10 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "firstname", length = 35, nullable = false)
     private String firstname;
+
     @Column(name = "lastname", length = 35, nullable = false)
     private String lastname;
     @ManyToMany(fetch = FetchType.LAZY)
@@ -21,31 +24,38 @@ public class Author {
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    private List<Book> books;
+    private Set<Book> books = new HashSet<>();
 
-    public Author(List<Book> books) {
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 
-    public Author() {
-
-    }
-
-    public void setFirstname(String firstname) {
+    public String getLastname() {
+        return lastname;
     }
 
     public void setLastname(String lastname) {
-    }
-
-    public Integer getAuthorId() {
-        return 0;
+        this.lastname = lastname;
     }
 
     public String getFirstname() {
-        return "";
+        return firstname;
     }
 
-    public String getLastname() {
-        return "";
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 }

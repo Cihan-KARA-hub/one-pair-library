@@ -3,7 +3,6 @@ package com.pairone.library.service;
 import com.pairone.library.dto.bookinfo.BookGetResponse;
 import com.pairone.library.dto.bookinfo.BookInfoCreateDto;
 import com.pairone.library.entity.BookInfo;
-import com.pairone.library.mapper.BookInfoMapper;
 import com.pairone.library.repository.BookInfoRepository;
 import com.pairone.library.service.abstractservice.BookInfoService;
 import org.hibernate.ObjectNotFoundException;

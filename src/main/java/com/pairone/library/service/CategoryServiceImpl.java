@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public CategoryUpdateResponseDto updateCategory(CategoryUpdateRequestDto categoryUpdateRequestDto) {
-        categoryBusinessRule.getCategoryMustNotExistWithGivenName(categoryUpdateRequestDto.getName());
+        categoryBusinessRule.getCategoryMustExistWithGivenId(categoryUpdateRequestDto.getId());
         Category category = categoryMapper.categoryUpdateRequestDtoMapToEntity(categoryUpdateRequestDto);
         categoryRepository.save(category);
         return categoryMapper.entityMapToCategoryUpdateResponseDto(category);

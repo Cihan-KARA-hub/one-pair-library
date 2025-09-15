@@ -4,6 +4,7 @@ import com.pairone.library.dto.publisher.Request.PublisherCreateRequest;
 import com.pairone.library.dto.publisher.Request.PublisherUpdateRequest;
 import com.pairone.library.dto.publisher.Response.PublisherResponse;
 import com.pairone.library.entity.Publisher;
+import com.pairone.library.mapper.PublisherMapper;
 import com.pairone.library.repository.PublisherRepository;
 import com.pairone.library.service.abstractservice.PublisherService;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,11 @@ import java.util.Optional;
 @Service
 public class PublisherServiceImpl implements PublisherService {
     private final PublisherRepository repository;
+    private final PublisherMapper publisherMapper;
 
-    public PublisherServiceImpl(PublisherRepository repository) {
+    public PublisherServiceImpl(PublisherRepository repository, PublisherMapper publisherMapper) {
         this.repository = repository;
+        this.publisherMapper = publisherMapper;
     }
 
     public PublisherResponse create(PublisherCreateRequest request) {

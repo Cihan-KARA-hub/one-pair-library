@@ -2,7 +2,9 @@ package com.pairone.library.rules;
 
 import com.pairone.library.entity.Publisher;
 import com.pairone.library.repository.PublisherRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PublisherBusinessRule {
     private final PublisherRepository publisherRepository;
 

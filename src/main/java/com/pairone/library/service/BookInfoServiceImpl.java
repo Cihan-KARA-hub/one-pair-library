@@ -8,7 +8,7 @@ import com.pairone.library.dto.bookinfo.request.BookInfoUpdateRequestDto;
 import com.pairone.library.entity.BookInfo;
 import com.pairone.library.mapper.BookInfoMapper;
 import com.pairone.library.repository.BookInfoRepository;
-import com.pairone.library.rules.BookInfoBusinessRole;
+import com.pairone.library.rules.BookInfoBusinessRule;
 import com.pairone.library.service.abstractservice.BookInfoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,17 +19,17 @@ import org.springframework.stereotype.Service;
 public class BookInfoServiceImpl implements BookInfoService {
     private final BookInfoRepository bookInfoRepository;
     private final BookInfoMapper bookInfoMapper;
-    private final BookInfoBusinessRole bookInfoBusinessRole;
+    private final BookInfoBusinessRule bookInfoBusinessRule;
 
-    public BookInfoServiceImpl(BookInfoRepository bookInfoRepository, BookInfoMapper bookInfoMapper, BookInfoBusinessRole bookInfoBusinessRole) {
+    public BookInfoServiceImpl(BookInfoRepository bookInfoRepository, BookInfoMapper bookInfoMapper, BookInfoBusinessRule bookInfoBusinessRule) {
         this.bookInfoRepository = bookInfoRepository;
         this.bookInfoMapper = bookInfoMapper.INSTANCE;
-        this.bookInfoBusinessRole = bookInfoBusinessRole;
+        this.bookInfoBusinessRule = bookInfoBusinessRule;
     }
 
     @Override
     public BookInfoCreateResponseDto save(BookInfoCreateRequestDto bookInfo) {
-        bookInfoBusinessRole.bookInfoMustNotExistWithGivenId(bookInfo.getIsbn());
+        bookInfoBusinessRule.bookInfoMustNotExistWithGivenId(bookInfo.getIsbn());
         BookInfo info = bookInfoMapper.bookInfoCreateDtoMapToEntity(bookInfo);
         bookInfoRepository.save(info);
         return bookInfoMapper.mapToBookInfoCreateResponseDto(info);
@@ -37,7 +37,7 @@ public class BookInfoServiceImpl implements BookInfoService {
 
     @Override
     public BookInfoUpdateResponseDto update(BookInfoUpdateRequestDto bookInfo) {
-        bookInfoBusinessRole.bookInfoMustExistWithGivenId(bookInfo.getBookId());
+        bookInfoBusinessRule.bookInfoMustExistWithGivenId(bookInfo.getBookId());
         BookInfo info = bookInfoMapper.bookInfoUpdateDtoMapToEntity(bookInfo);
         bookInfoRepository.save(info);
         return bookInfoMapper.mapToBookInfoUpdateResponseDto(info);
@@ -45,13 +45,13 @@ public class BookInfoServiceImpl implements BookInfoService {
 
     @Override
     public BookInfoGetResponseDto getBookInfo(Integer bookId) {
-        BookInfo info = bookInfoBusinessRole.bookInfoMustExistWithGivenId(bookId);
+        BookInfo info = bookInfoBusinessRule.bookInfoMustExistWithGivenId(bookId);
         return bookInfoMapper.mapToBookInfoGetResponseDto(info);
     }
     @Override
     public Page<BookInfoGetResponseDto> getAll(int size ,int page) {
         Pageable pageable = PageRequest.of(size, page);
-        Page<BookInfo> info = bookInfoBusinessRole.findAll(pageable);
+        Page<BookInfo> info = bookInfoBusinessRule.findAll(pageable);
         return info.map(bookInfoMapper::mapToBookInfoGetResponseDto);
     }
 }

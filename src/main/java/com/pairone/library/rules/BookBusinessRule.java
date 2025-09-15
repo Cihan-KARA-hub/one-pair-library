@@ -2,9 +2,9 @@ package com.pairone.library.rules;
 
 import com.pairone.library.entity.Book;
 import com.pairone.library.repository.BookRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @Component
 public class BookBusinessRule {
@@ -14,7 +14,16 @@ public class BookBusinessRule {
         this.bookRepository = bookRepository;
     }
 
-    public Book findById(int id) {
-        return bookRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "book not found "));
+    public void findBookIsNotExists(Book book) {
+        Optional<Book> bookEntity = bookRepository.findbyBook(book);
+        if (bookEntity.isPresent()) {
+            throw new RuntimeException("Book already exists");
+        }
     }
+
+    public Book findBookIsExists(Integer bookId) {
+        return bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+
+    }
+
 }

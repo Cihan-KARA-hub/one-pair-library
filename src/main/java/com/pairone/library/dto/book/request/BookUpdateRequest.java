@@ -3,31 +3,18 @@ package com.pairone.library.dto.book.request;
 import com.pairone.library.dto.bookinfo.request.BookInfoCreateRequestDto;
 
 import java.util.List;
+import java.util.Set;
 
 public class BookUpdateRequest {
-    private int id;
     private String name;
     private int pageCount;
     private int editionNo;
-    private BookInfoCreateRequestDto bookinfoId;
-    private Integer publisherId;
-    private Integer categoryId;
-    private List<Integer> authorId;
+    private int bookInfoId;
+    private int publisherId;
+    private int categoryId;
+    private Set<Integer> authorId;
 
-    public Integer getPublisherId() {
-        return publisherId;
-    }
-
-    public void setPublisherId(Integer publisherId) {
-        this.publisherId = publisherId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public BookUpdateRequest() {
     }
 
     public String getName() {
@@ -54,29 +41,35 @@ public class BookUpdateRequest {
         this.editionNo = editionNo;
     }
 
-    public BookInfoCreateRequestDto getBookinfoId() {
-        return bookinfoId;
+    public int getBookInfoId() {
+        return bookInfoId;
     }
 
-    public void setBookinfoId(BookInfoCreateRequestDto bookinfoId) {
-        this.bookinfoId = bookinfoId;
+    public void setBookInfoId(int bookInfoId) {
+        this.bookInfoId = bookInfoId;
     }
 
-    public Integer getCategoryId() {
+    public int getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(int publisherId) {
+        this.publisherId = publisherId;
+    }
+
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
-    public List<Integer> getAuthorId() {
+    public Set<Integer> getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(List<Integer> authorId) {
+    public void setAuthorId(Set<Integer> authorId) {
         this.authorId = authorId;
     }
-
-
 }

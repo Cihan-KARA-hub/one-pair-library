@@ -1,11 +1,18 @@
 package com.pairone.library.dto.book.response;
 
 public class BookUpdateResponse {
-    private String bookName;
+    private String name;
 
-    private String Message;
-    public BookUpdateResponse(String bookName, String message) {
-        this.bookName = bookName;
-        Message = message;
+    public BookUpdateResponse(String name) {
+        this.name = name;
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

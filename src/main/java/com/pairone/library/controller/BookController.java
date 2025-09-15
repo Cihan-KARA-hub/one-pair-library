@@ -1,5 +1,7 @@
 package com.pairone.library.controller;
 
+import com.pairone.library.dto.book.request.BookCreateRequest;
+import com.pairone.library.dto.book.request.BookUpdateRequest;
 import com.pairone.library.dto.book.response.BookCreateResponse;
 import com.pairone.library.dto.book.response.BookListResponseDto;
 import com.pairone.library.service.abstractservice.BookService;
@@ -21,14 +23,14 @@ public class BookController {
     //Create
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public BookCreateResponse createBook(@RequestBody BookCreateReq book) {
+    public BookCreateResponse createBook(@RequestBody BookCreateRequest book) {
         return bookService.create(book);
     }
 
     //update
     @PutMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public void updateBook(@RequestBody BookUpdateReq book) {
+    public void updateBook(@RequestBody BookUpdateRequest book) {
         bookService.update(book);
     }
 

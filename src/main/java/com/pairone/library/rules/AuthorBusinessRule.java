@@ -6,6 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Component
 public class AuthorBusinessRule {
     private final AuthorRepository authorRepository;
@@ -28,5 +31,14 @@ public class AuthorBusinessRule {
 
     public Page<Author> findAll(Pageable pageable) {
         return authorRepository.findAll(pageable);
+    }
+
+    public Set<Author> findByIds(Set<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            throw new RuntimeException("Author listesi boş olamaz");
+        }
+        return ids.stream()
+                .map(this::findByIdIsEmpty)
+                .collect(Collectors.toSet());
     }
 }

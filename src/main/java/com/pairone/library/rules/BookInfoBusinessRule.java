@@ -1,20 +1,18 @@
 package com.pairone.library.rules;
 
-import com.pairone.library.entity.Author;
 import com.pairone.library.entity.BookInfo;
 import com.pairone.library.repository.BookInfoRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class BookInfoBusinessRole {
+public class BookInfoBusinessRule {
     private final BookInfoRepository bookInfoRepository;
 
-    public BookInfoBusinessRole(BookInfoRepository bookInfoRepository) {
+    public BookInfoBusinessRule(BookInfoRepository bookInfoRepository) {
         this.bookInfoRepository = bookInfoRepository;
     }
 

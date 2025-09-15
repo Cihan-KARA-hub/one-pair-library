@@ -2,7 +2,9 @@ package com.pairone.library.rules;
 
 import com.pairone.library.entity.Category;
 import com.pairone.library.repository.CategoryRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CategoryBusinessRule {
     private final CategoryRepository categoryRepository;
 

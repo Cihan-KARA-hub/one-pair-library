@@ -1,9 +1,7 @@
 package com.pairone.library.controller;
 
-import com.pairone.library.dto.book.BookCreateReq;
-import com.pairone.library.dto.book.BookCreateRes;
-import com.pairone.library.dto.book.BookListDto;
-import com.pairone.library.dto.book.BookUpdateReq;
+import com.pairone.library.dto.book.response.BookCreateResponse;
+import com.pairone.library.dto.book.response.BookListResponseDto;
 import com.pairone.library.service.abstractservice.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +21,7 @@ public class BookController {
     //Create
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public BookCreateRes createBook(@RequestBody BookCreateReq book) {
+    public BookCreateResponse createBook(@RequestBody BookCreateReq book) {
         return bookService.create(book);
     }
 
@@ -42,8 +40,8 @@ public class BookController {
 
     //Get
     @GetMapping
-    public List<BookListDto> getAllBooks(@RequestParam(defaultValue = "5") int size,
-                                         @RequestParam(defaultValue = "0") int page) {
+    public List<BookListResponseDto> getAllBooks(@RequestParam(defaultValue = "5") int size,
+                                                 @RequestParam(defaultValue = "0") int page) {
         return bookService.getAll(size, page);
     }
 }

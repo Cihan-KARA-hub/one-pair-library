@@ -1,4 +1,4 @@
-package com.pairone.library.dto.book;
+package com.pairone.library.dto.book.response;
 
 public class BookListPublisherDto {
     String publisherName;

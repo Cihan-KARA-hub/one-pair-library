@@ -1,9 +1,8 @@
-package com.pairone.library.dto.book;
+package com.pairone.library.dto.book.response;
 
 import java.util.List;
-import java.util.Set;
 
-public class BookListDto {
+public class BookListResponseDto {
     private int id;
     private String name;
     private int pageCount;

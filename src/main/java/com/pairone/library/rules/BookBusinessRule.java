@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 @Component
-public class BookRule {
+public class BookBusinessRule {
     private final BookRepository bookRepository;
 
-    public BookRule(BookRepository bookRepository) {
+    public BookBusinessRule(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 

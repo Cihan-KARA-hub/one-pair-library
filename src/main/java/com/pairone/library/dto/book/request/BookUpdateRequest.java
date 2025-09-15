@@ -1,10 +1,10 @@
-package com.pairone.library.dto.book;
+package com.pairone.library.dto.book.request;
 
 import com.pairone.library.dto.bookinfo.request.BookInfoCreateRequestDto;
 
 import java.util.List;
 
-public class BookUpdateReq {
+public class BookUpdateRequest {
     private int id;
     private String name;
     private int pageCount;

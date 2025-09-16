@@ -7,27 +7,25 @@ import com.pairone.library.entity.Member;
 import com.pairone.library.entity.Penalty;
 import org.springframework.stereotype.Component;
 
-@Component
-public class PenaltyMapper {
+@Mapper(componentModel = "spring")
+public interface PenaltyMapper {
+    PenaltyMapper INSTANCE = Mappers.getMapper(PenaltyMapper.class);
 
-    public Penalty createToEntity(PenaltyCreateReq req, Loan loan, Member member) {
-        Penalty penalty = new Penalty();
-        penalty.setAmount(req.getAmount());
-        penalty.setDelayDays(req.getDelayDays());
-        penalty.setReturned(req.isReturned());
-        penalty.setPenaltyType(req.getPenaltyType());
-        penalty.setMember(member);
-        penalty.setLoan(loan);
-        return penalty;
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "amount", source = "req.amount")
+    @Mapping(target = "delayDays", source = "req.delayDays")
+    @Mapping(target = "returned", source = "req.returned")
+    @Mapping(target = "penaltyType", source = "req.penaltyType")
+    @Mapping(target = "member", source = "member")
+    @Mapping(target = "loan", source = "loan")
+    Penalty createToEntity(PenaltyCreateReq req, Loan loan, Member member);
 
-    public PagePenaltyRes pageListDto(Penalty penalty) {
-        return new PagePenaltyRes(penalty.getId(),
-                penalty.getMember().getId(),
-                penalty.getMember().getId(),
-                penalty.getPenaltyType(),
-                penalty.getDelayDays(),
-                penalty.isReturned(),
-                penalty.getAmount());
-    }
+    @Mapping(target = "id", source = "penalty.id")
+    @Mapping(target = "memberId", source = "penalty.member.id")
+    @Mapping(target = "loanId", source = "penalty.loan.id")
+    @Mapping(target = "penaltyType", source = "penalty.penaltyType")
+    @Mapping(target = "delayDays", source = "penalty.delayDays")
+    @Mapping(target = "returned", source = "penalty.returned")
+    @Mapping(target = "amount", source = "penalty.amount")
+    PagePenaltyRes pageListDto(Penalty penalty);
 }

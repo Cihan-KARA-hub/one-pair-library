@@ -12,63 +12,44 @@ import org.springframework.stereotype.Component;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Component
-public class LoanMapper {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+@Mapper(componentModel = "spring")
+public interface LoanMapper {
+    LoanMapper INSTANCE = Mappers.getMapper(LoanMapper.class);
 
-    public static LoanResponseDto toResponseDto(Loan loan) {
-        if (loan == null) return null;
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "book", source = "book")
+    @Mapping(target = "member", source = "member")
+    @Mapping(target = "requestDate", source = "dto.requestDate")
+    @Mapping(target = "dueDate", source = "dto.dueDate")
+    @Mapping(target = "returnDate", source = "dto.returnDate")
+    @Mapping(target = "status", source = "dto.status")
+    Loan toEntity(LoanCreateDto dto, Book book, Member member);
 
-        LoanResponseDto dto = new LoanResponseDto();
-        dto.setId(loan.getId());
-        dto.setBookId(loan.getBook().getId());
-        dto.setBookTitle(loan.getBook().getName());
-        dto.setMemberId(loan.getMember().getId());
-        dto.setMemberName(loan.getMember().getFirstname());
+    @Mapping(target = "id", source = "loan.id")
+    @Mapping(target = "bookId", source = "loan.book.id")
+    @Mapping(target = "bookTitle", source = "loan.book.name")
+    @Mapping(target = "memberId", source = "loan.member.id")
+    @Mapping(target = "memberName", source = "loan.member.firstname")
+    @Mapping(target = "requestDate", source = "loan.requestDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @Mapping(target = "dueDate", source = "loan.dueDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @Mapping(target = "returnDate", source = "loan.returnDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @Mapping(target = "status", source = "loan.status")
+    LoanResponseDto toResponseDto(Loan loan);
 
-        dto.setRequestDate(loan.getRequestDate() != null ? loan.getRequestDate().format(FORMATTER) : null);
-        dto.setDueDate(loan.getDueDate() != null ? loan.getDueDate().format(FORMATTER) : null);
-        dto.setReturnDate(loan.getReturnDate() != null ? loan.getReturnDate().format(FORMATTER) : null);
+    @Mapping(target = "id", source = "loan.id")
+    @Mapping(target = "bookTitle", source = "loan.book.bookinfoId.title")
+    @Mapping(target = "memberName", expression = "java(loan.getMember().getFirstname() + \" \" + loan.getMember().getLastname())")
+    @Mapping(target = "requestDate", source = "loan.requestDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @Mapping(target = "dueDate", source = "loan.dueDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @Mapping(target = "status", source = "loan.status")
+    LoanListDto toListDto(Loan loan);
 
-        dto.setStatus(loan.getStatus());
-        return dto;
-    }
-
-    public Loan toEntity(LoanCreateDto dto, Book book, Member member) {
-        if (dto == null) {
-            return null;
-        }
-        Loan loan = new Loan();
-        loan.setBook(book);
-        loan.setMember(member);
-        loan.setRequestDate(dto.getRequestDate());
-        loan.setDueDate(dto.getDueDate());
-        loan.setReturnDate(dto.getReturnDate());
-        loan.setStatus(dto.getStatus());
-
-        return loan;
-    }
-
-    public LoanListDto toListDto(Loan loan) {
-        LoanListDto dto = new LoanListDto();
-
-        dto.setId(loan.getId());
-        dto.setBookTitle(loan.getBook().getBookinfoId().getTitle());
-        dto.setMemberName(loan.getMember().getFirstname() + " " + loan.getMember().getLastname());
-        dto.setRequestDate(loan.getRequestDate() != null ? loan.getRequestDate().format(FORMATTER) : null);
-        dto.setDueDate(loan.getDueDate() != null ? loan.getDueDate().format(FORMATTER) : null);
-        dto.setStatus(loan.getStatus());
-        return dto;
-    }
-
-
-    public void updateEntityFromDto(LoanUpdateDto dto, Loan loan) {
-        if (dto == null || loan == null) return;
-        loan.setDueDate(OffsetDateTime.parse(dto.getDueDate(), FORMATTER));
-
-        loan.setReturnDate(OffsetDateTime.parse(dto.getReturnDate(), FORMATTER));
-        loan.setStatus(dto.getStatus());
-
-
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "book", ignore = true)
+    @Mapping(target = "member", ignore = true)
+    @Mapping(target = "requestDate", ignore = true)
+    @Mapping(target = "dueDate", source = "dto.dueDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @Mapping(target = "returnDate", source = "dto.returnDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @Mapping(target = "status", source = "dto.status")
+    void updateEntityFromDto(LoanUpdateDto dto, @MappingTarget Loan loan);
 }

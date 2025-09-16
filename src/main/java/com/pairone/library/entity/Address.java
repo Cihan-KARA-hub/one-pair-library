@@ -100,4 +100,14 @@ public class Address {
     }
 
 
+    public Integer getAddressId() {
+        return null;
+    }
+
+    public void setApartmentNo(String apartmentNo) {
+    }
+
+    public String getApartmentNo() {
+        return null;
+    }
 }

@@ -31,4 +31,7 @@ public class Role {
         this.id = id;
     }
 
+    public Integer getRoleId() {
+        return 0;
+    }
 }

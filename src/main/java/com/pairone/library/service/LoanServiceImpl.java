@@ -5,10 +5,11 @@ import com.pairone.library.entity.Book;
 import com.pairone.library.entity.Loan;
 import com.pairone.library.entity.Member;
 import com.pairone.library.mapper.LoanMapper;
-import com.pairone.library.repository.BookRepository;
 import com.pairone.library.repository.LoanRepository;
-import com.pairone.library.repository.MemberRepository;
+import com.pairone.library.rules.BookBusinessRule;
+import com.pairone.library.rules.LoanBusinessRule;
 import com.pairone.library.service.abstractservice.LoanService;
+import com.pairone.library.service.abstractservice.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,27 +21,32 @@ import java.util.stream.Collectors;
 public class LoanServiceImpl implements LoanService {
 
     private final LoanRepository loanRepository;
-    private final BookRepository bookRepository;
-    private final MemberRepository memberRepository;
+    private final LoanBusinessRule loanBusinessRule;
+    private final MemberService memberService;
     private final LoanMapper loanMapper;
 
-    public LoanServiceImpl(LoanRepository loanRepository, BookRepository bookRepository,
-                           MemberRepository memberRepository, LoanMapper loanMapper) {
+    public LoanServiceImpl(LoanRepository loanRepository, LoanBusinessRule loanBusinessRule,
+                           MemberService memberService, LoanMapper loanMapper, BookBusinessRule bookBusinessRule) {
         this.loanRepository = loanRepository;
-        this.bookRepository = bookRepository;
-        this.memberRepository = memberRepository;
+        this.loanBusinessRule = loanBusinessRule;
+
+        this.memberService = memberService;
         this.loanMapper = loanMapper;
     }
 
     public LoanCreateResponseDto createLoan(LoanCreateDto dto) {
-        Book book = bookRepository.findById(dto.getBookId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book bulunamadı: " + dto.getBookId()));
-        Member member = memberRepository.findById(dto.getMemberId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member bulunamadı: " + dto.getMemberId()));
+
+        Book book = bookBusinessRule.findBookIsExists(dto.getBookId());
+        Member member = memberService.entityMemberById(dto.getMemberId());
 
         Loan loan = loanMapper.toEntity(dto, book, member);
         Loan saved = loanRepository.save(loan);
-        return new LoanCreateResponseDto(saved.getBook().getId(), saved.getMember().getFirstname(), saved.getId());
+
+        return new LoanCreateResponseDto(
+                saved.getBook().getId(),
+                saved.getMember().getFirstname(),
+                saved.getId()
+        );
     }
 
     public List<LoanListDto> getAllLoans() {
@@ -51,28 +57,28 @@ public class LoanServiceImpl implements LoanService {
     }
 
     public LoanResponseDto getLoanById(int id) {
-        Loan loan = loanRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Loan bulunamadı: " + id));
-        return loanMapper.toResponseDto(loan);
+        Loan loan = loanBusinessRule.findLoanIsExists(id);
+
+        return LoanMapper.toResponseDto(loan);
     }
 
     public LoanResponseDto updateLoan(Integer id, LoanUpdateDto dto) {
-        Loan loan = loanRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Loan bulunamadı: " + id));
+        Loan loan = loanBusinessRule.findLoanIsExists(id);;
 
         loanMapper.updateEntityFromDto(dto, loan);
         Loan updated = loanRepository.save(loan);
-        return loanMapper.toResponseDto(updated);
+
+        return LoanMapper.toResponseDto(updated);
     }
 
     public String deleteLoan(Integer id) {
-        Loan loan = loanRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Loan bulunamadı: " + id));
+        Loan loan = loanBusinessRule.findLoanIsExists(id);
+
         loanRepository.delete(loan);
         return "Loan Silindi: " + id;
     }
 
     public Loan entityLoanById(Integer id) {
-        return loanRepository.findById(id).orElseThrow(() -> new RuntimeException(" not found loan"));
+        return loanBusinessRule.findLoanIsExists(id);
     }
 }

@@ -2,10 +2,12 @@ package com.pairone.library.controller;
 
 import com.pairone.library.dto.category.request.CategoryCreateRequestDto;
 import com.pairone.library.dto.category.request.CategoryUpdateRequestDto;
+import com.pairone.library.dto.category.response.CategoryCreateResponseDto;
 import com.pairone.library.dto.category.response.CategoryDeleteResponseDto;
 import com.pairone.library.dto.category.response.CategoryGetResponseDto;
 import com.pairone.library.dto.category.response.CategoryUpdateResponseDto;
 import com.pairone.library.service.abstractservice.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +23,13 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryGetResponseDto save(@RequestBody CategoryCreateRequestDto dto) {
+    public CategoryCreateResponseDto save(@Valid @RequestBody CategoryCreateRequestDto dto) {
         return categoryService.saveCategory(dto);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public CategoryUpdateResponseDto update(@RequestBody CategoryUpdateRequestDto dto) {
+    public CategoryUpdateResponseDto update(@Valid @RequestBody CategoryUpdateRequestDto dto) {
         return categoryService.updateCategory(dto);
     }
 

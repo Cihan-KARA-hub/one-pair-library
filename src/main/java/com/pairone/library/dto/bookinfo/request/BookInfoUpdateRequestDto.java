@@ -1,15 +1,30 @@
 package com.pairone.library.dto.bookinfo.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 public class BookInfoUpdateRequestDto {
+    @NotNull
     private Integer bookId;
+    @NotBlank
     private String isbn;
+    @NotBlank
     private String title;
+    @NotBlank
     private String status;
+    @NotBlank
     private String type;
+    @NotBlank
     private String language;
+    @NotBlank
     private String condition;
+    @NotNull
+    @Positive
     private int copyCount;
+    @NotBlank
     private String location;
+    @NotBlank
     private String barcode;
 
     public Integer getBookId() {

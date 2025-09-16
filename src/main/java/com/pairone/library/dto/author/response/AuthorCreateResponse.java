@@ -1,7 +1,12 @@
 package com.pairone.library.dto.author.response;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class AuthorCreateResponse {
+    @NotNull
     private Integer authorId;
+    @NotBlank
     private String message;
 
     public String getMessage() {

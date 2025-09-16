@@ -2,13 +2,17 @@ package com.pairone.library.dto.member;
 
 import com.pairone.library.entity.Address;
 import com.pairone.library.entity.Role;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
 
 public class MemberCreateDto {
 
     private Address address;
     private Role role;
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
     private String eMail;
+    @Size(min =11, max = 11)
     private String phone;
     private String firstname;
     private String lastname;

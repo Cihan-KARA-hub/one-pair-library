@@ -3,19 +3,22 @@ package com.pairone.library.service;
 import com.pairone.library.dto.book.request.BookCreateRequest;
 import com.pairone.library.dto.book.request.BookUpdateRequest;
 import com.pairone.library.dto.book.response.BookCreateResponse;
-import com.pairone.library.dto.book.response.BookDeleteResponseDto;
-import com.pairone.library.dto.book.response.BookListResponseDto;
+import com.pairone.library.dto.book.response.BookDeleteResponse;
+import com.pairone.library.dto.book.response.BookListResponse;
 import com.pairone.library.dto.book.response.BookUpdateResponse;
 import com.pairone.library.entity.Book;
 import com.pairone.library.mapper.BookMapper;
 import com.pairone.library.repository.BookRepository;
 import com.pairone.library.rules.*;
 import com.pairone.library.service.abstractservice.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
@@ -66,14 +69,16 @@ public class BookServiceImpl implements BookService {
 
     }
 
-    public BookDeleteResponseDto delete(Integer id) {
+    public BookDeleteResponse delete(Integer id) {
         Book book = bookBusinessRule.findBookIsExists(id);
         bookRepository.delete(book);
         return bookMapper.bookDeleteResponseDto(book);
 
     }
 
-    public List<BookListResponseDto> getAll(int size, int page) {
-
+    public Page<BookListResponse> getAll(int size, int page) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Book> bookList = bookBusinessRule.getAll(pageable);
+        return bookList.map(bookMapper::entityToBookListResponseDto);
     }
 }

@@ -1,6 +1,9 @@
 package com.pairone.library.dto.category.response;
 
+import jakarta.validation.constraints.NotNull;
+
 public class CategoryCreateResponseDto {
+    @NotNull
     private String id;
 
     public CategoryCreateResponseDto() {

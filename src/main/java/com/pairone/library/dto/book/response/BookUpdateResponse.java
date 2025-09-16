@@ -1,6 +1,9 @@
 package com.pairone.library.dto.book.response;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class BookUpdateResponse {
+    @NotBlank
     private String name;
 
     public BookUpdateResponse(String name) {

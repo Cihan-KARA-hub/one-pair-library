@@ -1,17 +1,30 @@
 package com.pairone.library.dto.bookinfo.request;
 
 
-public class BookInfoCreateRequestDto {
-    private String isbn;
-    private String title;
-    private String status;
-    private String type;
-    private String language;
-    private String condition;
-    private int copyCount;
-    private String location;
-    private String barcode;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
+public class BookInfoCreateRequestDto {
+    @NotBlank
+    private String isbn;
+    @NotBlank
+    private String title;
+    @NotBlank
+    private String status;
+    @NotBlank
+    private String type;
+    @NotBlank
+    private String language;
+    @NotBlank
+    private String condition;
+    @NotNull
+    @Positive
+    private int copyCount;
+    @NotBlank
+    private String location;
+    @NotBlank
+    private String barcode;
     public BookInfoCreateRequestDto(
                                     String isbn,
                                     String title,

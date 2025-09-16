@@ -2,6 +2,7 @@ package com.pairone.library.service;
 
 import com.pairone.library.dto.category.request.CategoryCreateRequestDto;
 import com.pairone.library.dto.category.request.CategoryUpdateRequestDto;
+import com.pairone.library.dto.category.response.CategoryCreateResponseDto;
 import com.pairone.library.dto.category.response.CategoryDeleteResponseDto;
 import com.pairone.library.dto.category.response.CategoryGetResponseDto;
 import com.pairone.library.dto.category.response.CategoryUpdateResponseDto;
@@ -11,8 +12,10 @@ import com.pairone.library.repository.CategoryRepository;
 import com.pairone.library.rules.CategoryBusinessRule;
 import com.pairone.library.service.abstractservice.CategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
@@ -24,11 +27,11 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryBusinessRule = categoryBusinessRule;
     }
 
-    public CategoryGetResponseDto saveCategory(CategoryCreateRequestDto categoryCreateRequestDto) {
+    public CategoryCreateResponseDto saveCategory(CategoryCreateRequestDto categoryCreateRequestDto) {
         categoryBusinessRule.getCategoryMustNotExistWithGivenName(categoryCreateRequestDto.getName());
         Category category = categoryMapper.categoryCreateRequestDtoMapToEntity(categoryCreateRequestDto);
         categoryRepository.save(category);
-        return categoryMapper.entityMapToCategoryGetResponseDto(category);
+        return categoryMapper.entityToCategoryCreateResponseDto(category);
     }
 
     public CategoryGetResponseDto categoryId(Integer id) {

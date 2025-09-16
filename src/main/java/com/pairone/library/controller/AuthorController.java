@@ -1,11 +1,12 @@
 package com.pairone.library.controller;
 
-import com.pairone.library.dto.author.request.AuthorCreateRequestDto;
-import com.pairone.library.dto.author.request.AuthorUpdateRequestDto;
+import com.pairone.library.dto.author.request.AuthorCreateRequest;
+import com.pairone.library.dto.author.request.AuthorUpdateRequest;
 import com.pairone.library.dto.author.response.AuthorCreateResponse;
 import com.pairone.library.dto.author.response.AuthorGetResponse;
 import com.pairone.library.dto.author.response.AuthorUpdateResponse;
 import com.pairone.library.service.abstractservice.AuthorService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +21,12 @@ public class AuthorController {
     }
 
     @PostMapping
-    public AuthorCreateResponse createAuthor(@RequestBody AuthorCreateRequestDto dto) {
+    public AuthorCreateResponse createAuthor(@Valid @RequestBody AuthorCreateRequest dto) {
         return authorService.createAuthor(dto);
     }
 
     @PutMapping("/{id}")
-    public AuthorUpdateResponse updateAuthor(@RequestBody AuthorUpdateRequestDto dto) {
+    public AuthorUpdateResponse updateAuthor(@Valid @RequestBody AuthorUpdateRequest dto) {
         return authorService.updateAuthor(dto);
     }
 

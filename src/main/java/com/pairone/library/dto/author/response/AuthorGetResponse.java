@@ -1,7 +1,11 @@
 package com.pairone.library.dto.author.response;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class AuthorGetResponse {
+    @NotBlank
     private String firstname;
+    @NotBlank
     private String lastname;
 
     public String getFirstname() {

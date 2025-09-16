@@ -1,7 +1,7 @@
 package com.pairone.library.service;
 
-import com.pairone.library.dto.author.request.AuthorCreateRequestDto;
-import com.pairone.library.dto.author.request.AuthorUpdateRequestDto;
+import com.pairone.library.dto.author.request.AuthorCreateRequest;
+import com.pairone.library.dto.author.request.AuthorUpdateRequest;
 import com.pairone.library.dto.author.response.AuthorCreateResponse;
 import com.pairone.library.dto.author.response.AuthorDeleteResponse;
 import com.pairone.library.dto.author.response.AuthorGetResponse;
@@ -15,8 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
@@ -31,14 +33,14 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorCreateResponse createAuthor(AuthorCreateRequestDto dto) {
+    public AuthorCreateResponse createAuthor(AuthorCreateRequest dto) {
         Author save = authorMappers.mapToEntity(dto);
         authorBusinessRule.authorFirstNameAndLastNameIsEmpty(save);
         authorRepository.save(save);
         return authorMappers.mapCreateToDto(save);
     }
     @Override
-    public AuthorUpdateResponse updateAuthor(AuthorUpdateRequestDto dto) {
+    public AuthorUpdateResponse updateAuthor(AuthorUpdateRequest dto) {
         authorBusinessRule.findByIdIsEmpty(dto.getAuthorId());
         Author save = authorMappers.mapToEntity(dto);
         Author updated = authorRepository.save(save);

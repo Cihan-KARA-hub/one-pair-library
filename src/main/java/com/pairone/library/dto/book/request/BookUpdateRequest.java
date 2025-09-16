@@ -1,20 +1,40 @@
 package com.pairone.library.dto.book.request;
 
-import com.pairone.library.dto.bookinfo.request.BookInfoCreateRequestDto;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
-import java.util.List;
 import java.util.Set;
 
 public class BookUpdateRequest {
+    @NotNull
+    private Integer id;
+    @NotBlank
     private String name;
+    @NotNull
+    @Positive
     private int pageCount;
+    @NotNull
+    @Positive
     private int editionNo;
+    @NotNull
     private int bookInfoId;
+    @NotNull
     private int publisherId;
+    @NotNull
     private int categoryId;
+    @NotNull
     private Set<Integer> authorId;
 
     public BookUpdateRequest() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

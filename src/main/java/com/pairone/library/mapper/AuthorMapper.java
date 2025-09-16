@@ -1,7 +1,7 @@
 package com.pairone.library.mapper;
 
-import com.pairone.library.dto.author.request.AuthorCreateRequestDto;
-import com.pairone.library.dto.author.request.AuthorUpdateRequestDto;
+import com.pairone.library.dto.author.request.AuthorCreateRequest;
+import com.pairone.library.dto.author.request.AuthorUpdateRequest;
 import com.pairone.library.dto.author.response.AuthorCreateResponse;
 import com.pairone.library.dto.author.response.AuthorDeleteResponse;
 import com.pairone.library.dto.author.response.AuthorGetResponse;
@@ -17,10 +17,10 @@ public interface AuthorMapper {
     AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
 
     @Mapping(target = "books", ignore = true)
-    Author mapToEntity(AuthorCreateRequestDto dto);
+    Author mapToEntity(AuthorCreateRequest dto);
 
     @Mapping(target = "books", ignore = true)
-    Author mapToEntity(AuthorUpdateRequestDto dto);
+    Author mapToEntity(AuthorUpdateRequest dto);
 
     AuthorUpdateResponse mapUpdateToDto(Author author);
 

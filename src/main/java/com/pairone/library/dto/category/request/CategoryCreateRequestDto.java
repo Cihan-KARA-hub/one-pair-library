@@ -1,6 +1,9 @@
 package com.pairone.library.dto.category.request;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CategoryCreateRequestDto {
+    @NotBlank
     private String name;
 
     public CategoryCreateRequestDto() {

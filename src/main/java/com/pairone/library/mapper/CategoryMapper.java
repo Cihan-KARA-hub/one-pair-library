@@ -2,6 +2,7 @@ package com.pairone.library.mapper;
 
 import com.pairone.library.dto.category.request.CategoryCreateRequestDto;
 import com.pairone.library.dto.category.request.CategoryUpdateRequestDto;
+import com.pairone.library.dto.category.response.CategoryCreateResponseDto;
 import com.pairone.library.dto.category.response.CategoryDeleteResponseDto;
 import com.pairone.library.dto.category.response.CategoryGetResponseDto;
 import com.pairone.library.dto.category.response.CategoryUpdateResponseDto;
@@ -14,6 +15,7 @@ public interface CategoryMapper {
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
     Category categoryCreateRequestDtoMapToEntity(CategoryCreateRequestDto category);
+    CategoryCreateResponseDto entityToCategoryCreateResponseDto(Category category);
 
     Category categoryUpdateRequestDtoMapToEntity(CategoryUpdateRequestDto category);
 

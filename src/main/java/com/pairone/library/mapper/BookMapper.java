@@ -3,7 +3,8 @@ package com.pairone.library.mapper;
 import com.pairone.library.dto.book.request.BookCreateRequest;
 import com.pairone.library.dto.book.request.BookUpdateRequest;
 import com.pairone.library.dto.book.response.BookCreateResponse;
-import com.pairone.library.dto.book.response.BookDeleteResponseDto;
+import com.pairone.library.dto.book.response.BookDeleteResponse;
+import com.pairone.library.dto.book.response.BookListResponse;
 import com.pairone.library.dto.book.response.BookUpdateResponse;
 import com.pairone.library.entity.*;
 import org.mapstruct.Mapper;
@@ -37,7 +38,9 @@ public interface BookMapper {
     BookCreateResponse toDto(Book book);
 
     BookUpdateResponse EntityToBookUpdateResponse(Book createdBook);
-    BookDeleteResponseDto bookDeleteResponseDto(Book book);
+    BookDeleteResponse bookDeleteResponseDto(Book book);
+    BookListResponse entityToBookListResponseDto(Book books);
+
 
     @Named("mapBookInfo")
     default BookInfo mapBookInfo(Integer id) {
@@ -72,7 +75,6 @@ public interface BookMapper {
             return author;
         }).collect(Collectors.toSet());
     }
-
 
 
 }

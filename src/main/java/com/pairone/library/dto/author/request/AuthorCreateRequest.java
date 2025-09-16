@@ -1,11 +1,14 @@
 package com.pairone.library.dto.author.request;
 
-public class AuthorCreateRequestDto {
+import jakarta.validation.constraints.NotBlank;
 
+public class AuthorCreateRequest {
+    @NotBlank
     private String firstname;
+    @NotBlank
     private String lastname;
 
-    public AuthorCreateRequestDto() {
+    public AuthorCreateRequest() {
     }
 
     public String getFirstname() {

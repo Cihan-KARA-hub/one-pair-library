@@ -14,8 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 public class BookInfoServiceImpl implements BookInfoService {
     private final BookInfoRepository bookInfoRepository;
     private final BookInfoMapper bookInfoMapper;

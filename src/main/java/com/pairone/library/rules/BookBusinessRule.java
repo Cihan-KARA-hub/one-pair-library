@@ -2,6 +2,8 @@ package com.pairone.library.rules;
 
 import com.pairone.library.entity.Book;
 import com.pairone.library.repository.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -26,4 +28,9 @@ public class BookBusinessRule {
 
     }
 
+    public Page<Book> getAll(Pageable pageable) {
+        Page<Book> books = bookRepository.findAll(pageable);
+        if (books.isEmpty()) throw new RuntimeException("not found data");
+        return books;
+    }
 }

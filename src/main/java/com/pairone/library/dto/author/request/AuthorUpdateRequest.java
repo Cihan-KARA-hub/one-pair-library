@@ -1,19 +1,25 @@
 package com.pairone.library.dto.author.request;
 
-public class AuthorUpdateRequestDto {
-    private Integer authorId;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public class AuthorUpdateRequest {
+    @NotNull
+    private Integer id;
+    @NotBlank
     private String firstname;
+    @NotBlank
     private String lastname;
 
-    public AuthorUpdateRequestDto() {
+    public AuthorUpdateRequest() {
     }
 
     public Integer getAuthorId() {
-        return authorId;
+        return id;
     }
 
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
+    public void setAuthorId(Integer id) {
+        this.id = id;
     }
 
     public String getFirstname() {
@@ -35,7 +41,7 @@ public class AuthorUpdateRequestDto {
     @Override
     public String toString() {
         return "AuthorDto{" +
-                "authorId=" + authorId +
+                "authorId=" + id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 '}';

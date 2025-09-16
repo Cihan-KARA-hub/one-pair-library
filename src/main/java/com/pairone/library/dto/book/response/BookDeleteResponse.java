@@ -1,9 +1,12 @@
 package com.pairone.library.dto.book.response;
 
-public class BookDeleteResponseDto {
+import jakarta.validation.constraints.NotNull;
+
+public class BookDeleteResponse {
+    @NotNull
     private int bookId;
 
-    public BookDeleteResponseDto(int bookId) {
+    public BookDeleteResponse(int bookId) {
         this.bookId = bookId;
     }
 

@@ -5,6 +5,9 @@ import com.pairone.library.dto.penalty.PenaltyCreateReq;
 import com.pairone.library.entity.Loan;
 import com.pairone.library.entity.Member;
 import com.pairone.library.entity.Penalty;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")

@@ -24,6 +24,7 @@ public class LoanServiceImpl implements LoanService {
     private final LoanBusinessRule loanBusinessRule;
     private final MemberService memberService;
     private final LoanMapper loanMapper;
+    private final BookBusinessRule bookBusinessRule;
 
     public LoanServiceImpl(LoanRepository loanRepository, LoanBusinessRule loanBusinessRule,
                            MemberService memberService, LoanMapper loanMapper, BookBusinessRule bookBusinessRule) {
@@ -32,6 +33,7 @@ public class LoanServiceImpl implements LoanService {
 
         this.memberService = memberService;
         this.loanMapper = loanMapper;
+        this.bookBusinessRule = bookBusinessRule;
     }
 
     public LoanCreateResponseDto createLoan(LoanCreateDto dto) {

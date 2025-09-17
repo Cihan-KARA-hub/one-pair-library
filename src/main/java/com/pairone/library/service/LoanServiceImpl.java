@@ -39,7 +39,7 @@ public class LoanServiceImpl implements LoanService {
     public LoanCreateResponseDto createLoan(LoanCreateDto dto) {
 
         Book book = bookBusinessRule.findBookIsExists(dto.getBookId());
-        Member member = memberService.entityMemberById(dto.getMemberId());
+        Member member = memberService.EntityMemberById(dto.getMemberId());
 
         Loan loan = loanMapper.toEntity(dto, book, member);
         Loan saved = loanRepository.save(loan);
@@ -61,7 +61,7 @@ public class LoanServiceImpl implements LoanService {
     public LoanResponseDto getLoanById(int id) {
         Loan loan = loanBusinessRule.findLoanIsExists(id);
 
-        return LoanMapper.toResponseDto(loan);
+        return LoanMapper.INSTANCE.toResponseDto(loan);
     }
 
     public LoanResponseDto updateLoan(Integer id, LoanUpdateDto dto) {
@@ -70,7 +70,7 @@ public class LoanServiceImpl implements LoanService {
         loanMapper.updateEntityFromDto(dto, loan);
         Loan updated = loanRepository.save(loan);
 
-        return LoanMapper.toResponseDto(updated);
+        return LoanMapper.INSTANCE.toResponseDto(updated);
     }
 
     public String deleteLoan(Integer id) {

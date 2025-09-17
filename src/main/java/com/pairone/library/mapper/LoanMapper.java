@@ -27,7 +27,6 @@ public interface LoanMapper {
     @Mapping(target = "returnDate", source = "dto.returnDate")
     @Mapping(target = "status", source = "dto.status")
     Loan toEntity(LoanCreateDto dto, Book book, Member member);
-
     @Mapping(target = "id", source = "loan.id")
     @Mapping(target = "bookId", source = "loan.book.id")
     @Mapping(target = "bookTitle", source = "loan.book.name")

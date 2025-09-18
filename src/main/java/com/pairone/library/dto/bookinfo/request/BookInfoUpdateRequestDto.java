@@ -26,6 +26,33 @@ public class BookInfoUpdateRequestDto {
     private String location;
     @NotBlank
     private String barcode;
+    @NotNull
+    @Positive
+    private int totalCopy;
+    @NotNull
+
+    @Positive
+    private int availableCopies;
+
+    @NotNull
+    @Positive
+    public int getAvailableCopies() {
+        return availableCopies;
+    }
+
+    public void setAvailableCopies(@NotNull @Positive int availableCopies) {
+        this.availableCopies = availableCopies;
+    }
+
+    @NotNull
+    @Positive
+    public int getTotalCopy() {
+        return totalCopy;
+    }
+
+    public void setTotalCopy(@NotNull @Positive int totalCopy) {
+        this.totalCopy = totalCopy;
+    }
 
     public Integer getBookId() {
         return bookId;

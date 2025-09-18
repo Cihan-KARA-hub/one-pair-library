@@ -22,7 +22,7 @@ public class BookInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bookId;
-    @Column(name = "isbn", nullable = false,unique = true)
+    @Column(name = "isbn", nullable = false, unique = true)
     private String isbn;
     @Column(name = "title", length = 255)
     private String title;
@@ -34,8 +34,10 @@ public class BookInfo {
     private String language;
     @Column(name = "condition", nullable = false)
     private String condition;
-    @Column(name = "copy_count")
-    private int copyCount;
+    @Column(name = "total_copy")
+    private int totalCopy;
+    @Column(name = "available_copy")
+    private int availableCopies;
     @Column(name = "location", nullable = false)
     private String location;
     @Column(name = "barcode", length = 13, nullable = false)
@@ -44,16 +46,38 @@ public class BookInfo {
     @JsonIgnore
     private List<Book> books = new ArrayList<>();
 
-    public int getCopyCount() {
-        return copyCount;
+    public int getTotalCopy() {
+        return totalCopy;
     }
 
-    public void setCopyCount(int copyCount) {
-        this.copyCount = copyCount;
+    public void setTotalCopy(int totalCopy) {
+        this.totalCopy = totalCopy;
     }
+
+    public int getAvailableCopies() {
+        return availableCopies;
+    }
+
+    public void setAvailableCopies(int availableCopies) {
+        this.availableCopies = availableCopies;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+
 
     public int getBookId() {
         return bookId;
+    }
+
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     public void setBookId(int bookId) {
@@ -123,5 +147,6 @@ public class BookInfo {
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
+
 
 }

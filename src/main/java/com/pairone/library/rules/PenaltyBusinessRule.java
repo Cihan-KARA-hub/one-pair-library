@@ -1,10 +1,10 @@
 package com.pairone.library.rules;
-
 import com.pairone.library.entity.Penalty;
 import com.pairone.library.repository.PenaltyRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
+import java.util.List;
 
 @Component
 public class PenaltyBusinessRule {
@@ -20,12 +20,21 @@ public class PenaltyBusinessRule {
     }
 
     public void checkDuplicatePenalty(Integer loanId, Integer memberId, String penaltyType) {
-        // İş kuralı: Aynı loan ve member için aynı tipte birden fazla ceza olamaz
         boolean exists = penaltyRepository.existsByLoanIdAndMemberIdAndPenaltyType(
                 loanId, memberId, penaltyType);
         if (exists) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Bu loan ve member için aynı tipte ceza zaten var");
+        }
+    }
+
+    public void validateMemberHasNoUnpaidFines(Integer memberId) {
+        List<Penalty> allPenalties = penaltyRepository.findAll();
+        boolean hasUnpaidFines = allPenalties.stream()
+                .anyMatch(penalty -> penalty.getMember().getId().equals(memberId) && !penalty.isReturned());
+        if (hasUnpaidFines) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Üyenin ödenmemiş cezası bulunmaktadır. Yeni ödünç alamaz.");
         }
     }
 }

@@ -10,9 +10,7 @@ import com.pairone.library.rules.BookBusinessRule;
 import com.pairone.library.rules.LoanBusinessRule;
 import com.pairone.library.service.abstractservice.LoanService;
 import com.pairone.library.service.abstractservice.MemberService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,18 +28,25 @@ public class LoanServiceImpl implements LoanService {
                            MemberService memberService, LoanMapper loanMapper, BookBusinessRule bookBusinessRule) {
         this.loanRepository = loanRepository;
         this.loanBusinessRule = loanBusinessRule;
-
         this.memberService = memberService;
         this.loanMapper = loanMapper;
         this.bookBusinessRule = bookBusinessRule;
     }
 
+    // --- Ödünç alma ---
     public LoanCreateResponseDto createLoan(LoanCreateDto dto) {
-
         Book book = bookBusinessRule.findBookIsExists(dto.getBookId());
         Member member = memberService.EntityMemberById(dto.getMemberId());
 
+        // Business rule kontrolü
+        loanBusinessRule.validateLoanCreation(book.getId(), member.getId());
+
         Loan loan = loanMapper.toEntity(dto, book, member);
+
+        // DueDate hesapla
+        loan.setDueDate(loanBusinessRule.calculateDueDate(member, loan.getRequestDate()));
+
+        loan.setStatus("BORROWED");
         Loan saved = loanRepository.save(loan);
 
         return new LoanCreateResponseDto(
@@ -51,6 +56,23 @@ public class LoanServiceImpl implements LoanService {
         );
     }
 
+    // --- Loan iade ---
+    public LoanResponseDto returnLoan(LoanReturnDto dto) {
+        Loan loan = loanBusinessRule.findLoanIsExists(dto.getLoanId());
+        loanBusinessRule.validateReturn(loan, dto.getReturnDate());
+        Loan updated = loanRepository.save(loan);
+        return LoanMapper.INSTANCE.toResponseDto(updated);
+    }
+
+    // --- Üye bazlı açık ödünçler ---
+    public List<LoanListDto> getMemberLoans(Integer memberId, String status) {
+        List<Loan> loans = loanRepository.findByMemberIdAndStatus(memberId, status);
+        return loans.stream()
+                .map(loanMapper::toListDto)
+                .collect(Collectors.toList());
+    }
+
+    // --- Mevcut metodlar ---
     public List<LoanListDto> getAllLoans() {
         return loanRepository.findAll()
                 .stream()
@@ -60,22 +82,18 @@ public class LoanServiceImpl implements LoanService {
 
     public LoanResponseDto getLoanById(int id) {
         Loan loan = loanBusinessRule.findLoanIsExists(id);
-
         return LoanMapper.INSTANCE.toResponseDto(loan);
     }
 
     public LoanResponseDto updateLoan(Integer id, LoanUpdateDto dto) {
-        Loan loan = loanBusinessRule.findLoanIsExists(id);;
-
+        Loan loan = loanBusinessRule.findLoanIsExists(id);
         loanMapper.updateEntityFromDto(dto, loan);
         Loan updated = loanRepository.save(loan);
-
         return LoanMapper.INSTANCE.toResponseDto(updated);
     }
 
     public String deleteLoan(Integer id) {
         Loan loan = loanBusinessRule.findLoanIsExists(id);
-
         loanRepository.delete(loan);
         return "Loan Silindi: " + id;
     }

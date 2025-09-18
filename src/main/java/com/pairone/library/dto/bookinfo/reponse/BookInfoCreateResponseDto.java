@@ -9,19 +9,19 @@ public class BookInfoCreateResponseDto {
     @NotBlank
     private String isbn;
 
-    public Integer getBookId() {
+    public @NotNull Integer getBookId() {
         return bookId;
     }
 
-    public void setBookId(Integer bookId) {
+    public void setBookId(@NotNull Integer bookId) {
         this.bookId = bookId;
     }
 
-    public String getIsbn() {
+    public @NotBlank String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public void setIsbn(@NotBlank String isbn) {
         this.isbn = isbn;
     }
 }

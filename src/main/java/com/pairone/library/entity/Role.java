@@ -1,37 +1,38 @@
 package com.pairone.library.entity;
-
+import com.pairone.library.entity.enums.RoleType;
 import jakarta.persistence.*;
-//role
+
 @Entity
-@Table(name = "role")
+@Table(name = "Role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Column(name = "type")
-    private String type;
+    private Integer roleId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true)
+    private RoleType type;
 
-    public Role() {
-    }
+    public Role() {}
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
+    public Role(Integer roleId, RoleType type) {
+        this.roleId = roleId;
         this.type = type;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Integer getRoleId() {
-        return 0;
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public RoleType getType() {
+        return type;
+    }
+
+    public void setType(RoleType type) {
+        this.type = type;
     }
 }

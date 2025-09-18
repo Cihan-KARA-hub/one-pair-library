@@ -17,37 +17,53 @@ public class LoanController {
         this.loanServiceImpl = loanServiceImpl;
     }
 
+    // Tüm loanlar
     @GetMapping
     public ResponseEntity<List<LoanListDto>> getAllLoans() {
-        List<LoanListDto> loans = loanServiceImpl.getAllLoans();
-        return ResponseEntity.ok(loans);
+        return ResponseEntity.ok(loanServiceImpl.getAllLoans());
     }
 
+    // Tek loan
     @GetMapping("/{id}")
     public ResponseEntity<LoanResponseDto> getLoanById(@PathVariable int id) {
-        LoanResponseDto loan = loanServiceImpl.getLoanById(id);
-        return ResponseEntity.ok(loan);
+        return ResponseEntity.ok(loanServiceImpl.getLoanById(id));
     }
 
+    // Loan oluşturma
     @PostMapping
-    public ResponseEntity<
-            LoanCreateResponseDto> createLoan(@RequestBody LoanCreateDto loanCreateDto) {
-        LoanCreateResponseDto createdLoan = loanServiceImpl.createLoan(loanCreateDto);
-        return ResponseEntity.ok(createdLoan);
+    public ResponseEntity<LoanCreateResponseDto> createLoan(
+            @RequestBody LoanCreateDto loanCreateDto) {
+        return ResponseEntity.ok(loanServiceImpl.createLoan(loanCreateDto));
     }
 
+    // Loan iade etme
+    @PostMapping("/return")
+    public ResponseEntity<LoanResponseDto> returnLoan(
+            @RequestBody LoanReturnDto loanReturnDto) {
+        return ResponseEntity.ok(loanServiceImpl.returnLoan(loanReturnDto));
+    }
+
+    // Üye bazlı açık ödünçler
+    @GetMapping("/members/{memberId}")
+    public ResponseEntity<List<LoanListDto>> getMemberLoans(
+            @PathVariable Integer memberId,
+            @RequestParam(defaultValue = "BORROWED") String status) {
+        return ResponseEntity.ok(loanServiceImpl.getMemberLoans(memberId, status));
+    }
+
+    // Loan güncelle
     @PutMapping("/{id}")
     public ResponseEntity<LoanResponseDto> updateLoan(
             @PathVariable Integer id,
             @RequestBody LoanUpdateDto loanUpdateDto) {
-        LoanResponseDto updatedLoan = loanServiceImpl.updateLoan(id, loanUpdateDto);
-        return ResponseEntity.ok(updatedLoan);
+        return ResponseEntity.ok(loanServiceImpl.updateLoan(id, loanUpdateDto));
     }
 
+    // Loan silme
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLoan(
-            @PathVariable Integer id) {
+    public ResponseEntity<String> deleteLoan(@PathVariable Integer id) {
         loanServiceImpl.deleteLoan(id);
         return ResponseEntity.ok("Loan kaydı silindi. ID: " + id);
     }
 }
+

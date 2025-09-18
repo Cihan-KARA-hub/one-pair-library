@@ -23,7 +23,9 @@ public class BookInfoServiceImpl implements BookInfoService {
     private final BookInfoMapper bookInfoMapper;
     private final BookInfoBusinessRule bookInfoBusinessRule;
 
-    public BookInfoServiceImpl(BookInfoRepository bookInfoRepository, BookInfoMapper bookInfoMapper, BookInfoBusinessRule bookInfoBusinessRule) {
+    public BookInfoServiceImpl(BookInfoRepository bookInfoRepository,
+                               BookInfoMapper bookInfoMapper,
+                               BookInfoBusinessRule bookInfoBusinessRule) {
         this.bookInfoRepository = bookInfoRepository;
         this.bookInfoMapper = bookInfoMapper.INSTANCE;
         this.bookInfoBusinessRule = bookInfoBusinessRule;
@@ -33,6 +35,8 @@ public class BookInfoServiceImpl implements BookInfoService {
     public BookInfoCreateResponseDto save(BookInfoCreateRequestDto bookInfo) {
         bookInfoBusinessRule.bookInfoMustNotExistWithGivenId(bookInfo.getIsbn());
         BookInfo info = bookInfoMapper.bookInfoCreateDtoMapToEntity(bookInfo);
+        //kullanılabilir totalden büyük olamaz
+        bookInfoBusinessRule.totalCurrentIsGreaterThan(info.getTotalCopy(),info.getAvailableCopies());
         bookInfoRepository.save(info);
         return bookInfoMapper.mapToBookInfoCreateResponseDto(info);
     }
@@ -41,6 +45,7 @@ public class BookInfoServiceImpl implements BookInfoService {
     public BookInfoUpdateResponseDto update(BookInfoUpdateRequestDto bookInfo) {
         bookInfoBusinessRule.bookInfoMustExistWithGivenId(bookInfo.getBookId());
         BookInfo info = bookInfoMapper.bookInfoUpdateDtoMapToEntity(bookInfo);
+        bookInfoBusinessRule.totalCurrentIsGreaterThan(info.getTotalCopy(),info.getAvailableCopies());
         bookInfoRepository.save(info);
         return bookInfoMapper.mapToBookInfoUpdateResponseDto(info);
     }

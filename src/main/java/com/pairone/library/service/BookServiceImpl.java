@@ -7,6 +7,7 @@ import com.pairone.library.dto.book.response.BookDeleteResponse;
 import com.pairone.library.dto.book.response.BookListResponse;
 import com.pairone.library.dto.book.response.BookUpdateResponse;
 import com.pairone.library.entity.Book;
+import com.pairone.library.entity.BookInfo;
 import com.pairone.library.mapper.BookMapper;
 import com.pairone.library.repository.BookRepository;
 import com.pairone.library.rules.*;
@@ -27,6 +28,7 @@ public class BookServiceImpl implements BookService {
     private final BookInfoBusinessRule bookInfoBusinessRule;
     private final PublisherBusinessRule publisherBusinessRule;
     private final AuthorBusinessRule authorBusinessRule;
+
 
     public BookServiceImpl(BookRepository bookRepository,
                            BookMapper bookMapper,
@@ -80,5 +82,26 @@ public class BookServiceImpl implements BookService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Book> bookList = bookBusinessRule.getAll(pageable);
         return bookList.map(bookMapper::entityToBookListResponseDto);
+    }
+
+    @Override
+    public Page<BookListResponse> getIsbnAndTitleAndAuthorAndAvailable(
+            String isbn,
+            String title,
+            String author,
+            Boolean available,
+            int size, int page) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Book> bookList = bookBusinessRule.getIsbnAndTitleAndAuthorAndAvailable
+                (isbn, title, author, available, pageable);
+        return bookList.map(bookMapper::entityToBookListResponseDto);
+    }
+
+    @Override
+    public void totalCopiesUpdate(Integer id, int copies) {
+        //stock bilgileri book info içerisindedir .
+        bookBusinessRule.findBookIsExists(id);
+        BookInfo bookInfo = bookInfoBusinessRule.updateStockCheck(id, copies);
+        bookInfoBusinessRule.bookInfoSave(bookInfo);
     }
 }

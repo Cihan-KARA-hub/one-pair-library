@@ -27,16 +27,19 @@ public class BookInfoGetResponseDto {
     @NotBlank
     private String barcode;
 
-    public BookInfoGetResponseDto(int bookId,
-                                    String isbn,
-                                    String title,
-                                    String status,
-                                    String type,
-                                    String language,
-                                    String condition,
-                                    int copyCount,
-                                    String location,
-                                    String barcode) {
+    public BookInfoGetResponseDto() {
+    }
+
+    public BookInfoGetResponseDto(Integer bookId,
+                                  String isbn,
+                                  String title,
+                                  String status,
+                                  String type,
+                                  String language,
+                                  String condition,
+                                  int copyCount,
+                                  String location,
+                                  String barcode) {
         this.bookId = bookId;
         this.isbn = isbn;
         this.title = title;
@@ -49,83 +52,85 @@ public class BookInfoGetResponseDto {
         this.barcode = barcode;
     }
 
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public int getBookId() {
+    public @NotNull Integer getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(@NotNull Integer bookId) {
         this.bookId = bookId;
     }
 
-    public String getIsbn() {
+    public @NotBlank String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public void setIsbn(@NotBlank String isbn) {
         this.isbn = isbn;
     }
 
-    public String getTitle() {
+    public @NotBlank String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NotBlank String title) {
         this.title = title;
     }
 
-    public String getStatus() {
+    public @NotBlank String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(@NotBlank String status) {
         this.status = status;
     }
 
-    public String getType() {
+    public @NotBlank String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(@NotBlank String type) {
         this.type = type;
     }
 
-    public String getCondition() {
+    public @NotBlank String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(@NotBlank String language) {
+        this.language = language;
+    }
+
+    public @NotBlank String getCondition() {
         return condition;
     }
 
-    public void setCondition(String condition) {
+    public void setCondition(@NotBlank String condition) {
         this.condition = condition;
     }
 
+    @NotNull
+    @Positive
     public int getCopyCount() {
         return copyCount;
     }
 
-    public void setCopyCount(int copyCount) {
+    public void setCopyCount(@NotNull @Positive int copyCount) {
         this.copyCount = copyCount;
     }
 
-    public String getLocation() {
+    public @NotBlank String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(@NotBlank String location) {
         this.location = location;
     }
 
-    public String getBarcode() {
+    public @NotBlank String getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(String barcode) {
+    public void setBarcode(@NotBlank String barcode) {
         this.barcode = barcode;
     }
 }

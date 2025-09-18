@@ -1,44 +1,64 @@
 package com.pairone.library.entity;
-
+import com.pairone.library.entity.enums.BookStatus;
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "book")
 public class Book {
-    /*book_id int
- name varchar
- page_count int
- edition_no int
- bookinfo_id int
- publisher_id int
- category_id int
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "name", nullable = false)
     private String name;
+
     @Column(name = "page_count", nullable = false)
     private int pageCount;
+
     @Column(name = "edition_no", nullable = false)
     private int editionNo;
+
+    @Column(name = "available_copies", nullable = false)
+    private int availableCopies;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookinfo_id", nullable = false)
     private BookInfo bookinfoId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
-    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
 
+    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
     private Set<Author> authors = new HashSet<>();
 
+    @Column(name = "book_status")
+    @Enumerated(EnumType.STRING)
+    private BookStatus bookStatus;
+
     public Book() {
+    }
+
+    public int getAvailableCopies() {
+        return availableCopies;
+    }
+
+    public void setAvailableCopies(int availableCopies) {
+        this.availableCopies = availableCopies;
+    }
+
+    public BookStatus getBookStatus() {
+        return bookStatus;
+    }
+
+    public void setBookStatus(BookStatus bookStatus) {
+        this.bookStatus = bookStatus;
     }
 
     public Set<Author> getAuthors() {
@@ -57,15 +77,11 @@ public class Book {
         this.editionNo = editionNo;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setId(int id) {
         this.id = id;
     }
 
@@ -108,6 +124,4 @@ public class Book {
     public void setCategory(Category category) {
         this.category = category;
     }
-
-
 }

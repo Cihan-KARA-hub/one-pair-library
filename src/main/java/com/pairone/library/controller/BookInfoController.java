@@ -44,4 +44,7 @@ public class BookInfoController {
                                                @RequestParam(defaultValue = "0") int page) {
         return bookInfoService.getAll(size, page);
     }
+
+
+
 }

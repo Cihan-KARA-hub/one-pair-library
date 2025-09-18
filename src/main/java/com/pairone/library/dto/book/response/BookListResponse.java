@@ -5,6 +5,7 @@ import com.pairone.library.entity.Author;
 import com.pairone.library.entity.BookInfo;
 import com.pairone.library.entity.Category;
 import com.pairone.library.entity.Publisher;
+import com.pairone.library.entity.enums.BookStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -28,6 +29,16 @@ public class BookListResponse {
     private Category category;
     @NotNull
     private Set<Author> authors = new HashSet<>();
+    @NotNull
+    private BookStatus bookStatus;
+
+    public @NotNull BookStatus getBookStatus() {
+        return bookStatus;
+    }
+
+    public void setBookStatus(@NotNull BookStatus bookStatus) {
+        this.bookStatus = bookStatus;
+    }
 
     public @NotNull BookInfo getBookinfoId() {
         return bookinfoId;

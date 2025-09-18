@@ -25,6 +25,33 @@ public class BookInfoCreateRequestDto {
     private String location;
     @NotBlank
     private String barcode;
+    @NotNull
+    @Positive
+    private int totalCopy;
+
+    @Positive
+    @NotNull
+    public int getAvailableCopies() {
+        return availableCopies;
+    }
+
+    public void setAvailableCopies(@Positive @NotNull int availableCopies) {
+        this.availableCopies = availableCopies;
+    }
+
+    @NotNull
+    @Positive
+    public int getTotalCopy() {
+        return totalCopy;
+    }
+
+    public void setTotalCopy(@NotNull @Positive int totalCopy) {
+        this.totalCopy = totalCopy;
+    }
+
+    @Positive
+    @NotNull
+    private int availableCopies;
     public BookInfoCreateRequestDto(
                                     String isbn,
                                     String title,

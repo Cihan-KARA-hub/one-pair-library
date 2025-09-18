@@ -6,16 +6,16 @@ public class BookCreateResponse {
     @NotBlank
     private String name;
 
+
     public BookCreateResponse(String name) {
         this.name = name;
-
     }
 
-    public String getName() {
+    public @NotBlank String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NotBlank String name) {
         this.name = name;
     }
 }

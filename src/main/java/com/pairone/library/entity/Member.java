@@ -1,39 +1,51 @@
 package com.pairone.library.entity;
-
+import com.pairone.library.entity.enums.MembershipLevel;
 import jakarta.persistence.*;
-//yapıldı
+
 @Entity
 @Table(name = "member")
 public class Member {
-    /* member_id int
-address_id int
-role_id int
-email varchar
-phone varchar
-firstname varchar
-lastname varchar
-is_active boolean
-   */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address addressId;
-    @OneToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role roleId;
+
     @Column(unique = true, nullable = false, name = "email")
     private String eMail;
+
     @Column(unique = true, nullable = false, name = "phone")
     private String phone;
+
     @Column(nullable = false, name = "firstname")
     private String firstname;
+
     @Column(nullable = false, name = "lastname")
     private String lastname;
+
     @Column(nullable = false, name = "is_active")
     private boolean isActive = false;
+
+    @Column(name = "membership_level", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MembershipLevel membershipLevel = MembershipLevel.STANDARD;
+
     public Member() {
+    }
+
+    public MembershipLevel getMembershipLevel() {
+        return membershipLevel;
+    }
+
+    public void setMembershipLevel(MembershipLevel membershipLevel) {
+        this.membershipLevel = membershipLevel;
     }
 
     public Role getRoleId() {
@@ -52,14 +64,13 @@ is_active boolean
         this.addressId = addressId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
-
 
     public String geteMail() {
         return eMail;
@@ -99,5 +110,10 @@ is_active boolean
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+
+    public BookInfo getRole() {
+        return null;
     }
 }

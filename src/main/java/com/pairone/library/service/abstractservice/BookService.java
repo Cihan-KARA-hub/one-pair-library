@@ -12,6 +12,12 @@ public interface BookService {
     BookCreateResponse create(BookCreateRequest req);
 
     BookUpdateResponse update(BookUpdateRequest req);
+
     BookDeleteResponse delete(Integer id);
 
-    Page<BookListResponse> getAll(int size, int page);}
+    Page<BookListResponse> getAll(int size, int page);
+
+    Page<BookListResponse> getIsbnAndTitleAndAuthorAndAvailable(String isbn, String title, String author, Boolean available, int size, int page);
+
+    void totalCopiesUpdate(Integer id, int copies);
+}

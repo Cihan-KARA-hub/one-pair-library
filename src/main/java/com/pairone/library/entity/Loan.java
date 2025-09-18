@@ -35,6 +35,7 @@ public class Loan {
     private OffsetDateTime dueDate;
     @Column(name = "return_date")
     private OffsetDateTime returnDate;
+    //Üyenin açık cezası (isPaid=false) varsa yeni ödünç alamaz.
     @Column(name = "status", length = 20, nullable = false)
     private String status;
 

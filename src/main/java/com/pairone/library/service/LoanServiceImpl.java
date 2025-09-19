@@ -61,6 +61,7 @@ public class LoanServiceImpl implements LoanService {
     // --- Loan iade ---
     public LoanResponseDto returnLoan(LoanReturnDto dto) {
         Loan loan = loanBusinessRule.findLoanIsExists(dto.getLoanId());
+        // vaktinde getirmiş mi
         loanBusinessRule.validateReturn(loan, dto.getReturnDate());
         Loan updated = loanRepository.save(loan);
         return LoanMapper.INSTANCE.toResponseDto(updated);

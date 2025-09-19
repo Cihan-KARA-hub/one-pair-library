@@ -10,10 +10,13 @@ import org.springframework.stereotype.Component;
 public class ReservationBusinessRules {
 
     private final ReservationRepository reservationRepository;
+    private final PenaltyBusinessRule penaltyBusinessRule;
 
-    public ReservationBusinessRules(ReservationRepository reservationRepository) {
+    public ReservationBusinessRules(ReservationRepository reservationRepository, PenaltyBusinessRule penaltyBusinessRule) {
         this.reservationRepository = reservationRepository;
+        this.penaltyBusinessRule = penaltyBusinessRule;
     }
+
 
     // BANNED üyeler rezervasyon yapamaz
     public void checkIfMemberBanned(Member member) {
@@ -23,6 +26,8 @@ public class ReservationBusinessRules {
             //            throw new IllegalStateException("BANNED üyeler rezervasyon yapamaz!");
         }
     }
+    public void checkMemberHasNoUnpaidFines(Member member) {
+        penaltyBusinessRule.validateMemberHasNoUnpaidFines(member.getId());}
 
     // Aynı kitap için aktif rezervasyon yapılamaz
     public void checkIfMemberHasActiveReservation(Member member, Book book) {

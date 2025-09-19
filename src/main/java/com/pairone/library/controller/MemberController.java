@@ -1,6 +1,6 @@
 package com.pairone.library.controller;
 
-import com.pairone.library.dto.member.request.MemberCreateDto;
+import com.pairone.library.dto.member.request.MemberCreateRequestDto;
 import com.pairone.library.dto.member.response.MemberListDto;
 import com.pairone.library.service.MemberServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,11 @@ public class MemberController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public void addMember(@RequestBody MemberCreateDto member) {
+    public void addMember(@RequestBody MemberCreateRequestDto member) {
         memberServiceImpl.addMember(member);
     }
+    //TODO  • GET /api/members/{id} → MemberResponse
+    // • GET /api/members?status=ACTIVE&email=...
+    // • PATCH /api/members/{id}/status?value=BANNED
+    // • GET /api/members/{id}/fines?isPaid=false
 }

@@ -19,6 +19,12 @@ public class BookBusinessRule {
         this.bookRepository = bookRepository;
     }
 
+    public void incrementBook(Integer bookId) {
+        Book book = findBookIsExists(bookId);
+        book.setAvailableCopies(book.getAvailableCopies() + 1);
+        bookRepository.save(book);
+    }
+
     public void findBookIsNotExists(Book book) {
         Optional<Book> bookEntity = bookRepository.findbyBook(book);
         if (bookEntity.isPresent()) {

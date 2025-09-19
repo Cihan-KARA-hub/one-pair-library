@@ -1,0 +1,103 @@
+package com.pairone.library.dto.member.response;
+
+import com.pairone.library.entity.Address;
+import com.pairone.library.entity.Role;
+import com.pairone.library.entity.enums.MembershipLevel;
+
+public class MemberCreateResponseDto {
+
+    private Integer id;
+
+    private Address addressId;
+
+
+    private Role roleId;
+
+    private String eMail;
+
+    private String phone;
+
+    private String firstname;
+
+    private String lastname;
+
+    private boolean isActive = false;
+
+
+    private MembershipLevel membershipLevel;
+
+    public MemberCreateResponseDto() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Address getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Address addressId) {
+        this.addressId = addressId;
+    }
+
+    public Role getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Role roleId) {
+        this.roleId = roleId;
+    }
+
+    public String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public MembershipLevel getMembershipLevel() {
+        return membershipLevel;
+    }
+
+    public void setMembershipLevel(MembershipLevel membershipLevel) {
+        this.membershipLevel = membershipLevel;
+    }
+}

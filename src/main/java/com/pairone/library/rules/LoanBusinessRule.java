@@ -1,14 +1,18 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.dto.penalty.PenaltyCreateReq;
 import com.pairone.library.entity.Book;
 import com.pairone.library.entity.Loan;
 import com.pairone.library.entity.Member;
 import com.pairone.library.entity.enums.MembershipLevel;
+import com.pairone.library.mapper.PenaltyMapper;
 import com.pairone.library.repository.LoanRepository;
+import com.pairone.library.service.PenaltyServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -18,12 +22,18 @@ public class LoanBusinessRule {
     private final LoanRepository loanRepository;
     private final BookBusinessRule bookBusinessRule;
     private final PenaltyBusinessRule penaltyBusinessRule;
+    private final MemberBusinessRule memberBusinessRule;
+    private final PenaltyServiceImpl penaltyService;
+    private final PenaltyMapper penaltyMapper;
 
 
-    public LoanBusinessRule(LoanRepository loanRepository, BookBusinessRule bookBusinessRule, PenaltyBusinessRule penaltyBusinessRule) {
+    public LoanBusinessRule(LoanRepository loanRepository, BookBusinessRule bookBusinessRule, PenaltyBusinessRule penaltyBusinessRule, MemberBusinessRule memberBusinessRule, PenaltyServiceImpl penaltyService, PenaltyMapper penaltyMapper) {
         this.loanRepository = loanRepository;
         this.bookBusinessRule = bookBusinessRule;
         this.penaltyBusinessRule = penaltyBusinessRule;
+        this.memberBusinessRule = memberBusinessRule;
+        this.penaltyService = penaltyService;
+        this.penaltyMapper = penaltyMapper;
     }
 
     //  Loan var mı kontrolü
@@ -54,7 +64,12 @@ public class LoanBusinessRule {
 
     // member engellenmiş mi ?
     private void validateIsBanned(Integer memberId) {
+        boolean a = memberBusinessRule.isBanned(memberId);
+        if (a) throw new RuntimeException("member banned");
+    }
 
+    private Member findMember(Integer memberId) {
+        return memberBusinessRule.findByMember(memberId);
     }
 
     //  Üyenin borcu var mı kontrolü
@@ -83,8 +98,7 @@ public class LoanBusinessRule {
         if (member.getMembershipLevel().equals(MembershipLevel.GOLD) && loan.size() >= 5) {
             throw new RuntimeException("You have reached the maximum rental limit");
 
-        }
-        else  if (member.getMembershipLevel().equals(MembershipLevel.STANDARD) && loan.size() >= 3) {
+        } else if (member.getMembershipLevel().equals(MembershipLevel.STANDARD) && loan.size() >= 3) {
             throw new RuntimeException("You have reached the maximum rental limit");
         }
 
@@ -103,29 +117,44 @@ public class LoanBusinessRule {
     }
 
     public void validateReturn(Loan loan, OffsetDateTime returnDate) {
-        // Daha önce iade edilmiş mi?
+        checkAlreadyReturned(loan);
+        checkLateReturnAndCreatePenalty(loan, returnDate);
+        // İade bilgilerini güncelle
+        loan.setStatus("RETURNED");
+        loan.setReturnDate(returnDate);
+        // Kitap kopya sayısını artır
+        bookBusinessRule.incrementBook(loan.getBook().getId());
+    }
+
+    private void checkAlreadyReturned(Loan loan) {
         if ("RETURNED".equalsIgnoreCase(loan.getStatus())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Bu ödünç kaydı zaten iade edilmiş.");
         }
+    }
 
-        // Gecikme kontrolü
+    private void checkLateReturnAndCreatePenalty(Loan loan, OffsetDateTime returnDate) {
         if (returnDate.isAfter(loan.getDueDate())) {
             long daysLate = java.time.temporal.ChronoUnit.DAYS.between(
                     loan.getDueDate().toLocalDate(),
                     returnDate.toLocalDate()
             );
-            int fineAmount = (int) (daysLate * 5); // günlük 5₺
-            penaltyBusinessRule.createLatePenalty(loan.getId(), loan.getMember().getId(), fineAmount);
+            Double fineAmount = (double) (daysLate * 5); // günlük 5₺
+            createPenalty(loan.getId(), loan.getMember().getId(), fineAmount, daysLate);
         }
-
-        // İade bilgilerini güncelle
-        loan.setStatus("RETURNED");
-        loan.setReturnDate(returnDate);
-
-        // Kitap kopya sayısını artır
-        Book book = loan.getBook();
-        book.setAvailableCopies(book.getAvailableCopies() + 1);
     }
+
+    private void createPenalty(int loanId, Integer memberId, Double fineAmount, long daysLate) {
+        PenaltyCreateReq req = new PenaltyCreateReq();
+        req.setLoanId(loanId);
+        req.setMemberId(memberId);
+        req.setAmount(BigDecimal.valueOf(fineAmount));
+        req.setPenaltyType("Late");
+        req.setReturned(true);
+        req.setDelayDays((int) daysLate);
+        penaltyService.createPenalty(req);
+    }
+
+
 
 }

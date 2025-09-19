@@ -1,5 +1,7 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.entity.Member;
+import com.pairone.library.entity.enums.MembershipLevel;
 import com.pairone.library.repository.MemberRepository;
 import org.springframework.stereotype.Component;
 
@@ -9,5 +11,22 @@ public class MemberBusinessRule {
 
     public MemberBusinessRule(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
+    }
+
+    public void memberShouldNotBePresent(String email) {
+        Member member = memberRepository.findByemail(email);
+        if (member != null) {
+            throw new RuntimeException("already such a member ");
+        }
+    }
+
+    public boolean isBanned(Integer memberId) {
+        return memberRepository.existsByIdAndMembershipLevel(memberId, MembershipLevel.BANNED);
+    }
+
+    public Member findByMember(Integer memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("member not found"));
+
     }
 }

@@ -5,6 +5,7 @@ import com.pairone.library.service.PenaltyServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/penalty")
@@ -39,6 +40,19 @@ public class PenaltyController {
     @ResponseStatus(HttpStatus.CREATED)
     public PenaltyUpdateRes updatePenalty(@RequestBody PenaltyCreateReq penalty) {
         return penaltyServiceImpl.updatePenalty(penalty);
+    }
+
+    @GetMapping("/members/{memberId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<PagePenaltyRes> getMemberFines(@PathVariable Integer memberId,
+                                               @RequestParam(required = false, defaultValue = "false") boolean onlyUnpaid) {
+        return penaltyServiceImpl.getMemberFines(memberId, onlyUnpaid);
+    }
+
+    @PostMapping("/{id}/pay")
+    @ResponseStatus(HttpStatus.OK)
+    public PenaltyUpdateRes payFine(@PathVariable Integer id) {
+        return penaltyServiceImpl.payFine(id);
     }
 
 }

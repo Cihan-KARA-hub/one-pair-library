@@ -37,4 +37,6 @@ public class PenaltyBusinessRule {
                     "Üyenin ödenmemiş cezası bulunmaktadır. Yeni ödünç alamaz.");
         }
     }
+
+
 }

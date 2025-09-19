@@ -2,60 +2,55 @@ package com.pairone.library.dto.member.request;
 
 import com.pairone.library.entity.Address;
 import com.pairone.library.entity.Role;
+import com.pairone.library.entity.enums.MembershipLevel;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
-public class MemberCreateDto {
-
+public class MemberCreateRequestDto {
+    @NotNull
     private Address address;
+    @NotNull
     private Role role;
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
     private String eMail;
-    @Size(min =11, max = 11)
+    @Size(min = 11, max = 11)
     private String phone;
     private String firstname;
     private String lastname;
-    public MemberCreateDto() {
-    }
-    public MemberCreateDto(Address address, Role role, String eMail, String phone, String firstname, String lastname) {
-        this.address = address;
-        this.role = role;
-        this.eMail = eMail;
-        this.phone = phone;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
+    @NotNull
+    private MembershipLevel members;
 
-    public Address getAddress() {
+    public @NotNull Address getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(@NotNull Address address) {
         this.address = address;
     }
 
-    public Role getRole() {
+    public @NotNull Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(@NotNull Role role) {
         this.role = role;
     }
 
-    public String geteMail() {
+    public @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}") String geteMail() {
         return eMail;
     }
 
-    public void seteMail(String eMail) {
+    public void seteMail(@Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}") String eMail) {
         this.eMail = eMail;
     }
 
-    public String getPhone() {
+    public @Size(min = 11, max = 11) String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(@Size(min = 11, max = 11) String phone) {
         this.phone = phone;
     }
 
@@ -73,5 +68,13 @@ public class MemberCreateDto {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public @NotNull MembershipLevel getMembers() {
+        return members;
+    }
+
+    public void setMembers(@NotNull MembershipLevel members) {
+        this.members = members;
     }
 }

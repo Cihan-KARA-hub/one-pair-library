@@ -1,52 +1,39 @@
 package com.pairone.library.service;
 
-import com.pairone.library.dto.member.request.MemberCreateDto;
+import com.pairone.library.dto.member.request.MemberCreateRequestDto;
+import com.pairone.library.dto.member.response.MemberCreateResponseDto;
 import com.pairone.library.dto.member.response.MemberListDto;
 import com.pairone.library.entity.Member;
-import com.pairone.library.entity.Role;
+import com.pairone.library.mapper.MemberMapper;
 import com.pairone.library.repository.MemberRepository;
+import com.pairone.library.rules.MemberBusinessRule;
 import com.pairone.library.service.abstractservice.MemberService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final MemberBusinessRule memberBusinessRule;
+    private final MemberMapper memberMapper;
 
-    public MemberServiceImpl(MemberRepository memberRepository) {
+    public MemberServiceImpl(MemberRepository memberRepository, MemberBusinessRule memberBusinessRule, MemberMapper memberMapper) {
         this.memberRepository = memberRepository;
+        this.memberBusinessRule = memberBusinessRule;
+        this.memberMapper = memberMapper;
     }
 
-    public void addMember(MemberCreateDto dto) {
-        Member member = new Member();
-        member.seteMail(dto.geteMail());
-        member.setPhone(dto.getPhone());
-        member.setActive(true);
-        member.setLastname(dto.getLastname());
-        member.setFirstname(dto.getFirstname());
-        member.setAddressId(dto.getAddress());
-        Role role = new Role();
-        role.setType(dto.getRole().getType());
-        member.setRoleId(role);
-        memberRepository.save(member);
+    public MemberCreateResponseDto addMember(MemberCreateRequestDto dto) {
+        memberBusinessRule.memberShouldNotBePresent(dto.geteMail());
+        Member member = memberMapper.memberCreateRequestDtoMapToEntity(dto);
+        member = memberRepository.save(member);
+        return memberMapper.entityMapToMemberCreateResponse(member);
     }
 
     public List<MemberListDto> getMembers() {
         List<Member> members = memberRepository.findAll();
-        List<MemberListDto> dtos = new ArrayList<>();
-        MemberListDto dto = new MemberListDto();
-        for (Member member : members) {
-            dto.seteMail(member.geteMail());
-            dto.setPhone(member.getPhone());
-            dto.setLastname(member.getLastname());
-            dto.setFirstname(member.getFirstname());
-            dto.setRoleId(member.getId());
-            dto.setAddressId(member.getAddressId().getId());
-            dtos.add(dto);
-        }
-        return dtos;
+        return members.stream().map(memberMapper::entityMapToListMember).toList();
     }
 
     public Member EntityMemberById(Integer id) {

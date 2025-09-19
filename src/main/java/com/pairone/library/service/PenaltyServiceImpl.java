@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PenaltyServiceImpl implements PenaltyService {
@@ -66,5 +68,22 @@ public class PenaltyServiceImpl implements PenaltyService {
         Member member = memberServiceImpl.EntityMemberById(penalty.getMemberId());
         Penalty pen = penaltyRepository.save(penaltyMapper.createToEntity(penalty, loan, member));
         return new PenaltyUpdateRes(pen.getId(), pen.getPenaltyType(), pen.getMember().getPhone(), "penalty update");
+    }
+
+    public List<PagePenaltyRes> getMemberFines(Integer memberId, boolean onlyUnpaid) {
+        List<Penalty> list =  penaltyRepository.findByMemberId(memberId)
+                .orElseThrow(()-> new RuntimeException("not found "));
+        if (onlyUnpaid) {
+            list = list.stream().filter(p -> !p.isReturned()).collect(Collectors.toList());
+        }
+        return list.stream().map(penaltyMapper::pageListDto).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public PenaltyUpdateRes payFine(Integer id) {
+        Penalty penalty = penaltyBusinessRule.findPenaltyIsExists(id);
+        penalty.setReturned(true);
+        Penalty saved = penaltyRepository.save(penalty);
+        return new PenaltyUpdateRes(saved.getId(), saved.getPenaltyType(), saved.getMember().getPhone(), "penalty paid");
     }
 }

@@ -2,12 +2,14 @@ package com.pairone.library.service;
 import com.pairone.library.entity.Role;
 import com.pairone.library.dto.role.RoleRequest;
 import com.pairone.library.dto.role.RoleResponse;
+import com.pairone.library.entity.enums.RoleType;
 import com.pairone.library.repository.RoleRepository;
 import com.pairone.library.rules.RoleBusinessRules;
 import com.pairone.library.service.abstractservice.RoleService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -36,11 +38,12 @@ public class RoleServiceImpl implements RoleService {
     public RoleResponse updateRole(Integer id, RoleRequest request) {
         Role role = roleRepository.findById(id).orElseThrow();
 
-        if (!role.getType().equals(request.getType())) {
-            roleBusinessRules.checkIfRoleTypeExists(request.getType());
+        RoleType newType = request.getType();
+        if (!role.getType().equals(newType)) {
+            roleBusinessRules.checkIfRoleTypeExists(newType);
         }
 
-        role.setType(request.getType());
+        role.setType(newType);
         return mapToResponse(roleRepository.save(role));
     }
 
@@ -64,7 +67,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleResponse mapToResponse(Role role) {
         RoleResponse response = new RoleResponse();
         response.setRoleId(role.getRoleId());
-        response.setType(role.getType());
+        response.setType(role.getType().name());
         return response;
     }
 }

@@ -26,6 +26,7 @@ public class Penalty {
     @JoinColumn(name = "loan_id", nullable = false)
     private Loan loan;
     @Column(name = "penalty_type", length = 50, nullable = false)
+    //enum gerekiyor
     private String penaltyType;
     @Column(name = "delay_days")
     private Integer delayDays;

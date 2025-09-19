@@ -1,39 +1,30 @@
 package com.pairone.library.dto.member.response;
 
+import com.pairone.library.entity.Role;
 
-public class MemberListDto {
-    private Integer addressId;
-    private int roleId;
+public class MemberGetResponseDto {
+
+    private Integer id;
+    private Role roleId;
     private String eMail;
     private String phone;
     private String firstname;
     private String lastname;
+    private boolean isActive = false;
 
-    public MemberListDto() {
+    public Integer getId() {
+        return id;
     }
 
-    public MemberListDto(int addressId, int roleId, String eMail, String phone, String firstname, String lastname) {
-        this.addressId = addressId;
-        this.roleId = roleId;
-        this.eMail = eMail;
-        this.phone = phone;
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public int getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
-    }
-
-    public int getRoleId() {
+    public Role getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(Role roleId) {
         this.roleId = roleId;
     }
 
@@ -69,4 +60,11 @@ public class MemberListDto {
         this.lastname = lastname;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

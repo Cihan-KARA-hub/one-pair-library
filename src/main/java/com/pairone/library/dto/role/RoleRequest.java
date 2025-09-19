@@ -2,9 +2,10 @@ package com.pairone.library.dto.role;
 
 import com.pairone.library.entity.enums.RoleType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class RoleRequest {
-    @NotBlank
+    @NotNull
     private RoleType type;
 
 

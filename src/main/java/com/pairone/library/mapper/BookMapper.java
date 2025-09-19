@@ -67,14 +67,17 @@ public interface BookMapper {
     }
 
     @Named("mapAuthors")
-    default Set<Author> mapAuthors(List<Integer> ids) {
-        if (ids == null) return new HashSet<>();
-        return ids.stream().map(id -> {
-            Author author = new Author();
-            author.setId(id);
-            return author;
-        }).collect(Collectors.toSet());
+    default Set<Author> mapAuthors(Set<Integer> ids) {
+        if (ids == null || ids.isEmpty()) return new HashSet<>();
+        return ids.stream()
+                .map(id -> {
+                    Author author = new Author();
+                    author.setId(id);
+                    return author;
+                })
+                .collect(Collectors.toSet());
     }
+
 
 
 }

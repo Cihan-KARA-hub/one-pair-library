@@ -71,12 +71,10 @@ public class LoanBusinessRule {
     private Member findMember(Integer memberId) {
         return memberBusinessRule.findByMember(memberId);
     }
-
     //  Üyenin borcu var mı kontrolü
     public void validateMemberFineStatus(Integer memberId) {
         penaltyBusinessRule.validateMemberHasNoUnpaidFines(memberId);
     }
-
     //  Aynı kitabı ikinci kez almaması kontrolü
     public void validateMemberDoesNotHaveSameBookLoaned(Integer bookId, Integer memberId) {
         boolean hasActiveBook = loanRepository.existsByBookIdAndMemberIdAndIsReturnedFalse(bookId, memberId);
@@ -85,13 +83,11 @@ public class LoanBusinessRule {
                     "Üye aynı kitabı zaten ödünç almış. İade etmeden tekrar alamaz.");
         }
     }
-
     // Üyenin üyelik tipine göre teslim tarihi hesaplama
     public OffsetDateTime calculateDueDate(Member member, OffsetDateTime loanDate) {
         int loanDays = getLoanDaysByMemberType(member);
         return loanDate.plusDays(loanDays);
     }
-
     // ödünç alma limit
     public void loanLimited(Member member) {
         List<Loan> loan = loanRepository.findByMember(member);

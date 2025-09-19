@@ -1,5 +1,6 @@
 package com.pairone.library.mapper;
 
+import com.pairone.library.dto.member.response.PenaltyMemberGetResponseDto;
 import com.pairone.library.dto.penalty.PagePenaltyRes;
 import com.pairone.library.dto.penalty.PenaltyCreateReq;
 import com.pairone.library.entity.Loan;
@@ -31,4 +32,18 @@ public interface PenaltyMapper {
     @Mapping(target = "returned", source = "penalty.returned")
     @Mapping(target = "amount", source = "penalty.amount")
     PagePenaltyRes pageListDto(Penalty penalty);
+
+
+    @Mapping(source = "member.id", target = "memberId")
+    @Mapping(source = "member.eMail", target = "eMail")
+    @Mapping(source = "member.firstname", target = "firstname")
+    @Mapping(source = "member.lastname", target = "lastname")
+    @Mapping(source = "member.phone", target = "phone")
+    @Mapping(source = "loan.id", target = "loanId")
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "penaltyType", target = "penaltyType")
+    @Mapping(source = "delayDays", target = "delayDays")
+    @Mapping(source = "returned", target = "penalty.returned")
+    @Mapping(source = "amount", target = "amount")
+    PenaltyMemberGetResponseDto toPenaltyMemberGetResponse(Penalty penalty);
 }

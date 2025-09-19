@@ -1,5 +1,6 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.entity.enums.RoleType;
 import com.pairone.library.repository.RoleRepository;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ public class RoleBusinessRules {
     }
 
     // Kural 1: Role type benzersiz olmalı
-    public void checkIfRoleTypeExists(String type) {
+    public void checkIfRoleTypeExists(RoleType type) {
         roleRepository.findByType(type).ifPresent(r -> {
             throw new IllegalArgumentException("Bu role zaten mevcut: " + type);
         });

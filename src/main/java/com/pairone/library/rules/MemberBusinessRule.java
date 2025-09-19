@@ -1,6 +1,7 @@
 package com.pairone.library.rules;
 
 import com.pairone.library.entity.Member;
+import com.pairone.library.entity.Penalty;
 import com.pairone.library.entity.enums.MembershipLevel;
 import com.pairone.library.repository.MemberRepository;
 import org.springframework.stereotype.Component;
@@ -29,4 +30,5 @@ public class MemberBusinessRule {
                 .orElseThrow(() -> new RuntimeException("member not found"));
 
     }
+
 }

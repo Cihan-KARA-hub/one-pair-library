@@ -1,6 +1,10 @@
 package com.pairone.library.entity;
+
 import com.pairone.library.entity.enums.MembershipLevel;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -36,8 +40,18 @@ public class Member {
     @Column(name = "membership_level", nullable = false)
     @Enumerated(EnumType.STRING)
     private MembershipLevel membershipLevel = MembershipLevel.STANDARD;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Penalty> penalties = new ArrayList<>();
 
     public Member() {
+    }
+
+    public List<Penalty> getPenalties() {
+        return penalties;
+    }
+
+    public void setPenalties(List<Penalty> penalties) {
+        this.penalties = penalties;
     }
 
     public MembershipLevel getMembershipLevel() {
@@ -66,6 +80,10 @@ public class Member {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setId(int id) {

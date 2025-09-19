@@ -1,15 +1,19 @@
 package com.pairone.library.controller;
 
 import com.pairone.library.dto.member.request.MemberCreateRequestDto;
+import com.pairone.library.dto.member.response.MemberGetResponseDto;
 import com.pairone.library.dto.member.response.MemberListDto;
+import com.pairone.library.entity.enums.MembershipLevel;
 import com.pairone.library.service.MemberServiceImpl;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/member")
+@RequestMapping(name = "/members")
 public class MemberController {
     private final MemberServiceImpl memberServiceImpl;
 
@@ -28,8 +32,37 @@ public class MemberController {
     public void addMember(@RequestBody MemberCreateRequestDto member) {
         memberServiceImpl.addMember(member);
     }
+
     //TODO  • GET /api/members/{id} → MemberResponse
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public MemberGetResponseDto get(@Valid @PathVariable Integer id) {
+        return memberServiceImpl.getMemberId(id);
+    }
+
     // • GET /api/members?status=ACTIVE&email=...
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public Page<MemberGetResponseDto> getQuery(
+            @Valid @RequestParam(required = false) String email,
+            @Valid @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "0") int page) {
+        return memberServiceImpl.filterQuery(email, status, size, page);
+
+    }
+
     // • PATCH /api/members/{id}/status?value=BANNED
-    // • GET /api/members/{id}/fines?isPaid=false
+    @PatchMapping("/{id}")
+    public void updateStatus(@PathVariable Integer id, @RequestParam MembershipLevel status) {
+        memberServiceImpl.updateStatus(id, status);
+    }
+    // • GET /api/members/{id}/fines?isPaid=false //cezaları ödemeyenleri getir
+    /*
+    @GetMapping("/{id}/fines")
+    public Page<MemberGetResponseDto> getFines(@PathVariable Integer id ,@RequestParam boolean isPaid) {
+        memberServiceImpl.getFinesIsPaid(id,isPaid);
+    }
+
+     */
 }

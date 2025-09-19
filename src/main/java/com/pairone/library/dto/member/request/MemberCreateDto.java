@@ -1,4 +1,4 @@
-package com.pairone.library.dto.member;
+package com.pairone.library.dto.member.request;
 
 import com.pairone.library.entity.Address;
 import com.pairone.library.entity.Role;

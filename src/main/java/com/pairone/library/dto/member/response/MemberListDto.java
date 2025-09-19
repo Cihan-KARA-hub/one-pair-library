@@ -1,4 +1,4 @@
-package com.pairone.library.dto.member;
+package com.pairone.library.dto.member.response;
 
 
 public class MemberListDto {

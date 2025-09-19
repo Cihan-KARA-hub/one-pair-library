@@ -1,7 +1,7 @@
 package com.pairone.library.service;
 
-import com.pairone.library.dto.member.MemberCreateDto;
-import com.pairone.library.dto.member.MemberListDto;
+import com.pairone.library.dto.member.request.MemberCreateDto;
+import com.pairone.library.dto.member.response.MemberListDto;
 import com.pairone.library.entity.Member;
 import com.pairone.library.entity.Role;
 import com.pairone.library.repository.MemberRepository;

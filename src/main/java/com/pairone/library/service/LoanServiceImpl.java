@@ -34,10 +34,12 @@ public class LoanServiceImpl implements LoanService {
     }
 
     // --- Ödünç alma ---
+    // üye sorgusu
     public LoanCreateResponseDto createLoan(LoanCreateDto dto) {
         Book book = bookBusinessRule.findBookIsExists(dto.getBookId());
         Member member = memberService.EntityMemberById(dto.getMemberId());
-
+        // üye ödünç alma limit kontrolü
+        loanBusinessRule.loanLimited(member);
         // Business rule kontrolü
         loanBusinessRule.validateLoanCreation(book.getId(), member.getId());
 

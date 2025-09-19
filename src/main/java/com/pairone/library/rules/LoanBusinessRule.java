@@ -3,14 +3,14 @@ package com.pairone.library.rules;
 import com.pairone.library.entity.Book;
 import com.pairone.library.entity.Loan;
 import com.pairone.library.entity.Member;
+import com.pairone.library.entity.enums.MembershipLevel;
 import com.pairone.library.repository.LoanRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Component
 public class LoanBusinessRule {
@@ -18,6 +18,7 @@ public class LoanBusinessRule {
     private final LoanRepository loanRepository;
     private final BookBusinessRule bookBusinessRule;
     private final PenaltyBusinessRule penaltyBusinessRule;
+
 
     public LoanBusinessRule(LoanRepository loanRepository, BookBusinessRule bookBusinessRule, PenaltyBusinessRule penaltyBusinessRule) {
         this.loanRepository = loanRepository;
@@ -43,11 +44,17 @@ public class LoanBusinessRule {
         return book;
     }
 
-    //  Loan oluşturma kuralları
+    //  Loan oluşturma kuralları (yeni kural member banned olamamlı )
     public Book validateLoanCreation(Integer bookId, Integer memberId) {
         validateMemberFineStatus(memberId);
+        validateIsBanned(memberId);
         validateMemberDoesNotHaveSameBookLoaned(bookId, memberId);
         return validateBookAvailability(bookId);
+    }
+
+    // member engellenmiş mi ?
+    private void validateIsBanned(Integer memberId) {
+
     }
 
     //  Üyenin borcu var mı kontrolü
@@ -70,6 +77,19 @@ public class LoanBusinessRule {
         return loanDate.plusDays(loanDays);
     }
 
+    // ödünç alma limit
+    public void loanLimited(Member member) {
+        List<Loan> loan = loanRepository.findByMember(member);
+        if (member.getMembershipLevel().equals(MembershipLevel.GOLD) && loan.size() >= 5) {
+            throw new RuntimeException("You have reached the maximum rental limit");
+
+        }
+        else  if (member.getMembershipLevel().equals(MembershipLevel.STANDARD) && loan.size() >= 3) {
+            throw new RuntimeException("You have reached the maximum rental limit");
+        }
+
+    }
+
 
     private int getLoanDaysByMemberType(Member member) {
         switch (member.getMembershipLevel()) {
@@ -81,6 +101,7 @@ public class LoanBusinessRule {
                 return 14; // Default STANDARD
         }
     }
+
     public void validateReturn(Loan loan, OffsetDateTime returnDate) {
         // Daha önce iade edilmiş mi?
         if ("RETURNED".equalsIgnoreCase(loan.getStatus())) {

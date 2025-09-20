@@ -42,7 +42,7 @@ public class BookInfo {
     private String location;
     @Column(name = "barcode", length = 13, nullable = false)
     private String barcode;
-    @OneToMany(mappedBy = "BookInfo", cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "bookinfoId", cascade = CascadeType.ALL, orphanRemoval = false)
     @JsonIgnore
     private List<Book> books = new ArrayList<>();
 

@@ -43,7 +43,7 @@ public interface PenaltyMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "penaltyType", target = "penaltyType")
     @Mapping(source = "delayDays", target = "delayDays")
-    @Mapping(source = "returned", target = "penalty.returned")
+    @Mapping(source = "returned", target = "returned")
     @Mapping(source = "amount", target = "amount")
     PenaltyMemberGetResponseDto toPenaltyMemberGetResponse(Penalty penalty);
 }

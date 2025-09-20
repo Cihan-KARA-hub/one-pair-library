@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public interface PenaltyRepository extends JpaRepository<Penalty, Integer> {
     boolean existsByLoanIdAndMemberIdAndPenaltyType(Integer loanId, Integer memberId, String penaltyType);
-    boolean existsByMemberIdAndIsPaid(Integer memberId, Boolean isPaid);
-    java.util.List<Penalty> findByMemberIdAndIsReturned(Integer memberId, boolean isReturned);
+    //boolean existsByMemberIdAndIsPaid(Integer memberId, Boolean isPaid);
+ //   java.util.List<Penalty> findByMemberIdAndIsReturned(Integer memberId, boolean isReturned);
     Optional<List<Penalty>> findByMemberId(Integer memberId);
 
 }

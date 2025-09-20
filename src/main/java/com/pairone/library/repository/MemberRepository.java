@@ -14,7 +14,8 @@ import java.util.List;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Integer> {
-    Member findByemail(String email);
+    @Query("SELECT m FROM Member m WHERE m.eMail=:email")
+    Member findByemail(@Param("email") String email);
     boolean existsByIdAndMembershipLevel(int id, MembershipLevel membershipLevel);
     @Query("""
     SELECT m 

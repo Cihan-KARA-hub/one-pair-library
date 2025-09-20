@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Integer> {
-    boolean existsByBookIdAndMemberIdAndIsReturnedFalse(Integer bookId, Integer memberId);
+    boolean existsByBookIdAndMemberId(Integer bookId, Integer memberId);
     List<Loan> findByMemberIdAndStatus(Integer memberId, String status);
     List<Loan> findByMember(Member member);
 }

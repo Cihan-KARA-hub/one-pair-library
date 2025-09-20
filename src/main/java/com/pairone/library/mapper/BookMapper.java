@@ -77,7 +77,4 @@ public interface BookMapper {
                 })
                 .collect(Collectors.toSet());
     }
-
-
-
 }

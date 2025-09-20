@@ -20,15 +20,12 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "loan_id")
     private Integer id;
-
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
-
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
-
     @Column(name = "request_date", nullable = false)
     private OffsetDateTime requestDate;
     @Column(name = "due_date", nullable = false)

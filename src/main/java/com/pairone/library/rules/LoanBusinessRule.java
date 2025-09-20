@@ -8,6 +8,7 @@ import com.pairone.library.entity.enums.MembershipLevel;
 import com.pairone.library.mapper.PenaltyMapper;
 import com.pairone.library.repository.LoanRepository;
 import com.pairone.library.service.PenaltyServiceImpl;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,7 +28,12 @@ public class LoanBusinessRule {
     private final PenaltyMapper penaltyMapper;
 
 
-    public LoanBusinessRule(LoanRepository loanRepository, BookBusinessRule bookBusinessRule, PenaltyBusinessRule penaltyBusinessRule, MemberBusinessRule memberBusinessRule, PenaltyServiceImpl penaltyService, PenaltyMapper penaltyMapper) {
+    public LoanBusinessRule(LoanRepository loanRepository,
+                            BookBusinessRule bookBusinessRule,
+                            @Lazy PenaltyBusinessRule penaltyBusinessRule,
+                            MemberBusinessRule memberBusinessRule,
+                            @Lazy PenaltyServiceImpl penaltyService,
+                            PenaltyMapper penaltyMapper) {
         this.loanRepository = loanRepository;
         this.bookBusinessRule = bookBusinessRule;
         this.penaltyBusinessRule = penaltyBusinessRule;
@@ -71,23 +77,27 @@ public class LoanBusinessRule {
     private Member findMember(Integer memberId) {
         return memberBusinessRule.findByMember(memberId);
     }
+
     //  Üyenin borcu var mı kontrolü
     public void validateMemberFineStatus(Integer memberId) {
         penaltyBusinessRule.validateMemberHasNoUnpaidFines(memberId);
     }
+
     //  Aynı kitabı ikinci kez almaması kontrolü
     public void validateMemberDoesNotHaveSameBookLoaned(Integer bookId, Integer memberId) {
-        boolean hasActiveBook = loanRepository.existsByBookIdAndMemberIdAndIsReturnedFalse(bookId, memberId);
+        boolean hasActiveBook = loanRepository.existsByBookIdAndMemberId(bookId, memberId);
         if (hasActiveBook) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Üye aynı kitabı zaten ödünç almış. İade etmeden tekrar alamaz.");
         }
     }
+
     // Üyenin üyelik tipine göre teslim tarihi hesaplama
     public OffsetDateTime calculateDueDate(Member member, OffsetDateTime loanDate) {
         int loanDays = getLoanDaysByMemberType(member);
         return loanDate.plusDays(loanDays);
     }
+
     // ödünç alma limit
     public void loanLimited(Member member) {
         List<Loan> loan = loanRepository.findByMember(member);
@@ -150,7 +160,6 @@ public class LoanBusinessRule {
         req.setDelayDays((int) daysLate);
         penaltyService.createPenalty(req);
     }
-
 
 
 }

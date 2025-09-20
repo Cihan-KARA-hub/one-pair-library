@@ -26,7 +26,7 @@ public class BookBusinessRule {
     }
 
     public void findBookIsNotExists(Book book) {
-        Optional<Book> bookEntity = bookRepository.findbyBook(book);
+        Optional<Book> bookEntity = bookRepository.findById(book.getId());
         if (bookEntity.isPresent()) {
             throw new RuntimeException("Book already exists");
         }

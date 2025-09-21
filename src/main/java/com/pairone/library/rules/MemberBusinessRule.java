@@ -1,5 +1,6 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.core.exception.type.BusinessException;
 import com.pairone.library.entity.Member;
 import com.pairone.library.entity.Penalty;
 import com.pairone.library.entity.enums.MembershipLevel;
@@ -17,7 +18,7 @@ public class MemberBusinessRule {
     public void memberShouldNotBePresent(String email) {
         Member member = memberRepository.findByemail(email);
         if (member != null) {
-            throw new RuntimeException("already such a member ");
+            throw new BusinessException("already such a member ");
         }
     }
 
@@ -27,7 +28,7 @@ public class MemberBusinessRule {
 
     public Member findByMember(Integer memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("member not found"));
+                .orElseThrow(() -> new BusinessException("member not found"));
 
     }
 

@@ -1,5 +1,6 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.core.exception.type.BusinessException;
 import com.pairone.library.entity.Book;
 import com.pairone.library.repository.BookRepository;
 import org.springframework.data.domain.Page;
@@ -28,17 +29,17 @@ public class BookBusinessRule {
     public void findBookIsNotExists(Book book) {
         Optional<Book> bookEntity = bookRepository.findById(book.getId());
         if (bookEntity.isPresent()) {
-            throw new RuntimeException("Book already exists");
+            throw new BusinessException("Book already exists");
         }
     }
 
     public Book findBookIsExists(Integer bookId) {
-        return bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+        return bookRepository.findById(bookId).orElseThrow(() -> new BusinessException("Book not found"));
     }
 
     public Page<Book> getAll(Pageable pageable) {
         Page<Book> books = bookRepository.findAll(pageable);
-        if (books.isEmpty()) throw new RuntimeException("not found data");
+        if (books.isEmpty()) throw new BusinessException("not found data");
         return books;
     }
 
@@ -65,7 +66,7 @@ public class BookBusinessRule {
 
     public Page<Book> getIsbnAndTitleAndAuthorAndAvailable(String isbn, String title, String author, Boolean available, Pageable pageable) {
         Page<Book> book = bookRepository.searchBooks(isbn, title, author, available, pageable);
-        if (book.isEmpty()) throw new RuntimeException("not found data");
+        if (book.isEmpty()) throw new BusinessException("not found data");
         return book;
     }
 }

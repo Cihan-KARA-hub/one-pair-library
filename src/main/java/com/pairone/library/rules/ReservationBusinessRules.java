@@ -1,4 +1,5 @@
 package com.pairone.library.rules;
+import com.pairone.library.core.exception.type.BusinessException;
 import com.pairone.library.entity.Book;
 import com.pairone.library.entity.Member;
 import com.pairone.library.entity.enums.ReservationStatus;
@@ -33,7 +34,7 @@ public class ReservationBusinessRules {
     public void checkIfMemberHasActiveReservation(Member member, Book book) {
         boolean exists = reservationRepository.existsByMemberAndBookAndStatus(member, book, ReservationStatus.ACTIVE);
         if (exists) {
-            throw new IllegalStateException("Bu kitap için zaten aktif rezervasyonunuz var!");
+            throw new BusinessException("Bu kitap için zaten aktif rezervasyonunuz var!");
         }
     }
 }

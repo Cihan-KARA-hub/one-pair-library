@@ -1,5 +1,6 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.core.exception.type.BusinessException;
 import com.pairone.library.entity.Author;
 import com.pairone.library.repository.AuthorRepository;
 import org.springframework.data.domain.Page;
@@ -20,13 +21,13 @@ public class AuthorBusinessRule {
     public void authorFirstNameAndLastNameIsEmpty(Author author) {
         Author author1 = authorRepository.findByIgnoreCaseFirstnameAndLastname(author.getFirstname(), author.getLastname());
         if (author1 != null) {
-            throw new RuntimeException("Data not found");
+            throw new BusinessException("Data not found");
         }
 
     }
 
     public Author findByIdIsEmpty(Integer id) {
-        return authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Data not found"));
+        return authorRepository.findById(id).orElseThrow(() -> new BusinessException("Data not found"));
     }
 
     public Page<Author> findAll(Pageable pageable) {
@@ -35,7 +36,7 @@ public class AuthorBusinessRule {
 
     public Set<Author> findByIds(Set<Integer> ids) {
         if (ids == null || ids.isEmpty()) {
-            throw new RuntimeException("Author listesi boş olamaz");
+            throw new BusinessException("Author listesi boş olamaz");
         }
         return ids.stream()
                 .map(this::findByIdIsEmpty)

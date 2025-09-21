@@ -1,5 +1,6 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.core.exception.type.BusinessException;
 import com.pairone.library.entity.BookInfo;
 import com.pairone.library.repository.BookInfoRepository;
 import org.springframework.data.domain.Page;
@@ -24,7 +25,7 @@ public class BookInfoBusinessRule {
     }
 
     public BookInfo bookInfoMustExistWithGivenId(Integer id) {
-        return bookInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("data is empty"));
+        return bookInfoRepository.findById(id).orElseThrow(() -> new BusinessException("data is empty"));
     }
 
     public Page<BookInfo> findAll(Pageable pageable) {
@@ -37,7 +38,7 @@ public class BookInfoBusinessRule {
     }
 
     public BookInfo updateStockCheck(Integer bookId, int copies) {
-        BookInfo bookInfo = bookInfoRepository.findByBookId(bookId).orElseThrow(() -> new RuntimeException("data is empty"));
+        BookInfo bookInfo = bookInfoRepository.findByBookId(bookId).orElseThrow(() -> new BusinessException("data is empty"));
         bookInfo.setTotalCopy(bookInfo.getTotalCopy() + copies);
         bookInfo.setAvailableCopies(bookInfo.getAvailableCopies() + copies);
         checkCopiesNotNegative(bookInfo.getTotalCopy(), bookInfo.getAvailableCopies());
@@ -50,7 +51,7 @@ public class BookInfoBusinessRule {
 
     private void checkCopiesNotNegative(int total, int available) {
         if (total < 0 || available < 0) {
-            throw new RuntimeException("total/available copies can't be less than 0");
+            throw new BusinessException("total/available copies can't be less than 0");
         }
     }
 

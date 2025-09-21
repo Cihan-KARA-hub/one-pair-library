@@ -1,5 +1,6 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.core.exception.type.BusinessException;
 import com.pairone.library.dto.penalty.PenaltyCreateReq;
 import com.pairone.library.entity.Book;
 import com.pairone.library.entity.Loan;
@@ -71,7 +72,7 @@ public class LoanBusinessRule {
     // member engellenmiş mi ?
     private void validateIsBanned(Integer memberId) {
         boolean a = memberBusinessRule.isBanned(memberId);
-        if (a) throw new RuntimeException("member banned");
+        if (a) throw new BusinessException("member banned");
     }
 
     private Member findMember(Integer memberId) {
@@ -105,7 +106,7 @@ public class LoanBusinessRule {
             throw new RuntimeException("You have reached the maximum rental limit");
 
         } else if (member.getMembershipLevel().equals(MembershipLevel.STANDARD) && loan.size() >= 3) {
-            throw new RuntimeException("You have reached the maximum rental limit");
+            throw new BusinessException("You have reached the maximum rental limit");
         }
 
     }

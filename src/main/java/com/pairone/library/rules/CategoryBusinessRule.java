@@ -1,5 +1,6 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.core.exception.type.BusinessException;
 import com.pairone.library.entity.Category;
 import com.pairone.library.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
@@ -19,14 +20,14 @@ public class CategoryBusinessRule {
     public Category getCategoryMustNotExistWithGivenName(String name) {
         Category entity = categoryRepository.findByIgnoreCaseName(name).orElseThrow(null);
         if (entity != null) {
-            throw new RuntimeException("cannot be added because data exists");
+            throw new BusinessException("cannot be added because data exists");
         }
         return entity;
     }
     public void getCategoryMustNotExistWithGivenId(Integer id) {
         Category entity = categoryRepository.findById(id).orElseThrow(null);
         if (entity != null) {
-            throw new RuntimeException("cannot be added because data exists");
+            throw new BusinessException("cannot be added because data exists");
         }
     }
 }

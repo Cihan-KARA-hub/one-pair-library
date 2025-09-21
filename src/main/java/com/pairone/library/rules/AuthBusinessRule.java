@@ -1,5 +1,6 @@
 package com.pairone.library.rules;
 
+import com.pairone.library.core.exception.type.BusinessException;
 import com.pairone.library.entity.User;
 import com.pairone.library.repository.UserRepository;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ public class AuthBusinessRule {
     }
 
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Wrong username or password"));
+        return userRepository.findByUsername(username).orElseThrow(() -> new BusinessException("Wrong username or password"));
 
     }
 }

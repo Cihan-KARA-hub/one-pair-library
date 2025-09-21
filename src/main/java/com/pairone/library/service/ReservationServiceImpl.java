@@ -118,6 +118,11 @@ public class ReservationServiceImpl implements ReservationService {
     public void trigger(Book book) {
         Optional<Reservation> res = reservationRepository
                 .findFirstByBookIdAndStatusOrderByReservationDateAsc(book.getId(), ReservationStatus.PENDING);
+        reserve(res, book);
+
+    }
+
+    private void reserve(Optional<Reservation> res, Book book) {
         if (res.isPresent()) {
             book.setBookStatus(BookStatus.RESERVE);
             bookBusinessRule.update(book);
@@ -127,12 +132,6 @@ public class ReservationServiceImpl implements ReservationService {
             reservationRepository.save(res.get());
         }
     }
-
-
-    private ReservationResponse mapToResponse(Reservation saved) {
-        return null;
-    }
-
     private void setStatusUpdateBook(ReservationStatus status, Book book) {
         if (status == ReservationStatus.CANCELLED || status == ReservationStatus.FULFILLED || status == ReservationStatus.EXPIRED) {
             bookBusinessRule.incrementBook(book.getId());
@@ -140,6 +139,5 @@ public class ReservationServiceImpl implements ReservationService {
             bookBusinessRule.decreaseAvailableCopies(book.getId());
         }
     }
-
 
 }

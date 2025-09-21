@@ -2,9 +2,9 @@ package com.pairone.library.service;
 
 import com.pairone.library.dto.member.request.MemberCreateRequestDto;
 import com.pairone.library.dto.member.response.MemberCreateResponseDto;
+import com.pairone.library.dto.member.response.MemberGetPenaltyResponseDto;
 import com.pairone.library.dto.member.response.MemberGetResponseDto;
 import com.pairone.library.dto.member.response.MemberListDto;
-import com.pairone.library.dto.member.response.PenaltyMemberGetResponseDto;
 import com.pairone.library.dto.penalty.PagePenaltyRes;
 import com.pairone.library.entity.Member;
 import com.pairone.library.entity.Penalty;
@@ -13,12 +13,14 @@ import com.pairone.library.mapper.MemberMapper;
 import com.pairone.library.mapper.PenaltyMapper;
 import com.pairone.library.repository.MemberRepository;
 import com.pairone.library.rules.MemberBusinessRule;
+import com.pairone.library.rules.PenaltyBusinessRule;
 import com.pairone.library.service.abstractservice.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,12 +29,14 @@ public class MemberServiceImpl implements MemberService {
     private final MemberBusinessRule memberBusinessRule;
     private final MemberMapper memberMapper;
     private final PenaltyMapper penaltyMapper;
+    private final PenaltyBusinessRule penaltyBusinessRule;
 
-    public MemberServiceImpl(MemberRepository memberRepository, MemberBusinessRule memberBusinessRule, MemberMapper memberMapper, PenaltyMapper penaltyMapper) {
+    public MemberServiceImpl(MemberRepository memberRepository, MemberBusinessRule memberBusinessRule, MemberMapper memberMapper, PenaltyMapper penaltyMapper, PenaltyBusinessRule penaltyBusinessRule) {
         this.memberRepository = memberRepository;
         this.memberBusinessRule = memberBusinessRule;
         this.memberMapper = memberMapper;
         this.penaltyMapper = penaltyMapper;
+        this.penaltyBusinessRule = penaltyBusinessRule;
     }
 
     public MemberCreateResponseDto addMember(MemberCreateRequestDto dto) {
@@ -70,4 +74,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
+    public MemberGetPenaltyResponseDto getFinesIsPaid(Integer id, boolean isPaid) {
+        Member member = memberBusinessRule.findByMember(id);
+        List<Penalty> penalties = penaltyBusinessRule.memberIdIsPaid(member, isPaid);
+        penaltyBusinessRule.pagePenaltyResMap(penalties);
+        List<PagePenaltyRes> penaltiesRes= penaltyBusinessRule.pagePenaltyResMap(penalties);
+        MemberGetResponseDto memDto = memberMapper.entityMapToMemberGetResponseDto(member);
+        return new MemberGetPenaltyResponseDto(memDto, penaltiesRes);
+
+    }
 }

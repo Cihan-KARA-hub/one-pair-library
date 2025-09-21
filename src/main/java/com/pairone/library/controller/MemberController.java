@@ -1,6 +1,7 @@
 package com.pairone.library.controller;
 
 import com.pairone.library.dto.member.request.MemberCreateRequestDto;
+import com.pairone.library.dto.member.response.MemberGetPenaltyResponseDto;
 import com.pairone.library.dto.member.response.MemberGetResponseDto;
 import com.pairone.library.dto.member.response.MemberListDto;
 import com.pairone.library.entity.enums.MembershipLevel;
@@ -57,12 +58,12 @@ public class MemberController {
     public void updateStatus(@PathVariable Integer id, @RequestParam MembershipLevel status) {
         memberServiceImpl.updateStatus(id, status);
     }
-    // • GET /api/members/{id}/fines?isPaid=false //cezaları ödemeyenleri getir
-    /*
+    // • GET /api/members/{id}/fines?isPaid=false
+
     @GetMapping("/{id}/fines")
-    public Page<MemberGetResponseDto> getFines(@PathVariable Integer id ,@RequestParam boolean isPaid) {
-        memberServiceImpl.getFinesIsPaid(id,isPaid);
+    public MemberGetPenaltyResponseDto getFinesIsPaid(@PathVariable Integer id,@RequestParam boolean isPaid) {
+       return memberServiceImpl.getFinesIsPaid(id,isPaid);
     }
 
-     */
+
 }

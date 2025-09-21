@@ -1,17 +1,26 @@
 package com.pairone.library.rules;
+
+import com.pairone.library.dto.penalty.PagePenaltyRes;
+import com.pairone.library.entity.Member;
 import com.pairone.library.entity.Penalty;
+import com.pairone.library.mapper.PenaltyMapper;
 import com.pairone.library.repository.PenaltyRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class PenaltyBusinessRule {
     private final PenaltyRepository penaltyRepository;
+    private final PenaltyMapper penaltyMapper;
 
-    public PenaltyBusinessRule(PenaltyRepository penaltyRepository) {
-        this.penaltyRepository = penaltyRepository;
+    public PenaltyBusinessRule(PenaltyRepository penaltyRepository1, PenaltyMapper penaltyMapper) {
+
+        this.penaltyRepository = penaltyRepository1;
+        this.penaltyMapper = penaltyMapper;
     }
 
     public Penalty findPenaltyIsExists(Integer id) {
@@ -38,6 +47,19 @@ public class PenaltyBusinessRule {
         }
     }
 
+    public List<Penalty> memberIdIsPaid(Member member, boolean isPaid) {
+        List<Penalty> penalties = new ArrayList<>();
+        member.getPenalties().stream().map(penalty -> {
+            if (isPaid == penalty.isReturned()) ;
+            {
+                penalties.add(penalty);
+            }
+            return penalty;
+        });
+        return penalties;
+    }
 
-
+    public List<PagePenaltyRes> pagePenaltyResMap(List<Penalty> penalties) {
+        return penalties.stream().map(penaltyMapper::pageListDto).toList();
+    }
 }

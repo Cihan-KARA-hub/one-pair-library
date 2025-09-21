@@ -1,7 +1,9 @@
-package com.pairone.library.dto.Reservation;
+package com.pairone.library.dto.reservation.response;
 
-import java.time.LocalDateTime;
 import com.pairone.library.entity.enums.ReservationStatus;
+
+import java.time.OffsetDateTime;
+
 public class ReservationResponse {
 
     private Long id;
@@ -9,11 +11,10 @@ public class ReservationResponse {
     private String memberName;
     private Long bookId;
     private String bookTitle;
-    private LocalDateTime reservationDate;
-    private LocalDateTime expireAt;
+    private OffsetDateTime reservationDate;
+    private OffsetDateTime expireAt;
     private ReservationStatus status;
 
-    // Getter ve Setter
     public Long getId() {
         return id;
     }
@@ -54,19 +55,19 @@ public class ReservationResponse {
         this.bookTitle = bookTitle;
     }
 
-    public LocalDateTime getReservationDate() {
+    public OffsetDateTime getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(LocalDateTime reservationDate) {
+    public void setReservationDate(OffsetDateTime reservationDate) {
         this.reservationDate = reservationDate;
     }
 
-    public LocalDateTime getExpireAt() {
+    public OffsetDateTime getExpireAt() {
         return expireAt;
     }
 
-    public void setExpireAt(LocalDateTime expireAt) {
+    public void setExpireAt(OffsetDateTime expireAt) {
         this.expireAt = expireAt;
     }
 

@@ -1,10 +1,13 @@
 package com.pairone.library.entity;
 
+import com.pairone.library.entity.enums.ReservationStatus;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "Reservation")
+@Table(name = "reservation")
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,24 +22,17 @@ public class Reservation {
     private Member member;
 
     @Column(nullable = false)
-    private LocalDateTime reservationDate;
-
-    private LocalDateTime expireAt;
+    @CreationTimestamp
+    private OffsetDateTime reservationDate;
 
     @Column(nullable = false)
-    private String status; // ACTIVE, CANCELLED, EXPIRED, FULFILLED
+    @CreationTimestamp
+    private OffsetDateTime expireAt;
+
+    @Column(nullable = false)
+    private ReservationStatus status = ReservationStatus.PENDING;
 
     public Reservation() {
-    }
-
-    public Reservation(Integer reservationId, Book book, Member member,
-                       LocalDateTime reservationDate, LocalDateTime expireAt, String status) {
-        this.reservationId = reservationId;
-        this.book = book;
-        this.member = member;
-        this.reservationDate = reservationDate;
-        this.expireAt = expireAt;
-        this.status = status;
     }
 
     public Integer getReservationId() {
@@ -63,27 +59,28 @@ public class Reservation {
         this.member = member;
     }
 
-    public LocalDateTime getReservationDate() {
+    public OffsetDateTime getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(LocalDateTime reservationDate) {
+    public void setReservationDate(OffsetDateTime reservationDate) {
         this.reservationDate = reservationDate;
     }
 
-    public LocalDateTime getExpireAt() {
+    public OffsetDateTime getExpireAt() {
         return expireAt;
     }
 
-    public void setExpireAt(LocalDateTime expireAt) {
+    public void setExpireAt(OffsetDateTime expireAt) {
         this.expireAt = expireAt;
     }
 
-    public String getStatus() {
+    public ReservationStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ReservationStatus status) {
         this.status = status;
     }
+
 }

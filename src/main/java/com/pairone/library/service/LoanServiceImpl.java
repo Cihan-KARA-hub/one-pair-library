@@ -10,6 +10,7 @@ import com.pairone.library.rules.BookBusinessRule;
 import com.pairone.library.rules.LoanBusinessRule;
 import com.pairone.library.service.abstractservice.LoanService;
 import com.pairone.library.service.abstractservice.MemberService;
+import com.pairone.library.service.abstractservice.ReservationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,32 +24,33 @@ public class LoanServiceImpl implements LoanService {
     private final MemberService memberService;
     private final LoanMapper loanMapper;
     private final BookBusinessRule bookBusinessRule;
+    private final ReservationService reservationService;
 
     public LoanServiceImpl(LoanRepository loanRepository, LoanBusinessRule loanBusinessRule,
-                           MemberService memberService, LoanMapper loanMapper, BookBusinessRule bookBusinessRule) {
+                           MemberService memberService, LoanMapper loanMapper, BookBusinessRule bookBusinessRule, ReservationService reservationService) {
         this.loanRepository = loanRepository;
         this.loanBusinessRule = loanBusinessRule;
         this.memberService = memberService;
         this.loanMapper = loanMapper;
         this.bookBusinessRule = bookBusinessRule;
+        this.reservationService = reservationService;
     }
 
     // --- Ödünç alma ---
     // üye sorgusu
     public LoanCreateResponseDto createLoan(LoanCreateDto dto) {
-        Book book = bookBusinessRule.findBookIsExists(dto.getBookId());
+        //Kitap var mı varsa stokta var mı ?
+        Book book = bookBusinessRule.findBookIsExistsAndAvailableCopies(dto.getBookId());
         Member member = memberService.EntityMemberById(dto.getMemberId());
         // üye ödünç alma limit kontrolü
         loanBusinessRule.loanLimited(member);
         // Business rule kontrolü
         loanBusinessRule.validateLoanCreation(book.getId(), member.getId());
-
         Loan loan = loanMapper.toEntity(dto, book, member);
-
         // DueDate hesapla
         loan.setDueDate(loanBusinessRule.calculateDueDate(member, loan.getRequestDate()));
-
         loan.setStatus("BORROWED");
+        bookBusinessRule.decreaseAvailableCopies(book.getId());
         Loan saved = loanRepository.save(loan);
 
         return new LoanCreateResponseDto(
@@ -58,12 +60,16 @@ public class LoanServiceImpl implements LoanService {
         );
     }
 
-    // --- Loan iade ---
+    // --- Loan iade ---//rezervasyon set
     public LoanResponseDto returnLoan(LoanReturnDto dto) {
         Loan loan = loanBusinessRule.findLoanIsExists(dto.getLoanId());
         // vaktinde getirmiş mi
         loanBusinessRule.validateReturn(loan, dto.getReturnDate());
         Loan updated = loanRepository.save(loan);
+        bookBusinessRule.incrementBook(loan.getBook().getId());
+        //rezervasyon sırası varsa harakete geçir kitap sorgusu at varmı rezerv.
+        // varsa direk rezerve satatüsünü ve book statüsünü set et
+        reservationService.trigger(loan.getBook());
         return LoanMapper.INSTANCE.toResponseDto(updated);
     }
 

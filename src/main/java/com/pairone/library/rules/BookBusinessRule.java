@@ -37,6 +37,15 @@ public class BookBusinessRule {
         return bookRepository.findById(bookId).orElseThrow(() -> new BusinessException("Book not found"));
     }
 
+    public Book findBookIsExistsAndAvailableCopies(Integer bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new BusinessException("Book not found"));
+        if (book.getAvailableCopies() > 0) {
+            return book;
+        } else {
+            throw new BusinessException("Out of stock");
+        }
+    }
+
     public Page<Book> getAll(Pageable pageable) {
         Page<Book> books = bookRepository.findAll(pageable);
         if (books.isEmpty()) throw new BusinessException("not found data");
@@ -60,13 +69,13 @@ public class BookBusinessRule {
         bookRepository.save(book);
     }
 
-    public Book saveBook(Book book) {
-        return bookRepository.save(book);
-    }
-
     public Page<Book> getIsbnAndTitleAndAuthorAndAvailable(String isbn, String title, String author, Boolean available, Pageable pageable) {
         Page<Book> book = bookRepository.searchBooks(isbn, title, author, available, pageable);
         if (book.isEmpty()) throw new BusinessException("not found data");
         return book;
+    }
+
+    public void update(Book book) {
+        bookRepository.save(book);
     }
 }

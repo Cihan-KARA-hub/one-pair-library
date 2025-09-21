@@ -62,11 +62,11 @@ public class LoanBusinessRule {
     }
 
     //  Loan oluşturma kuralları (yeni kural member banned olamamlı )
-    public Book validateLoanCreation(Integer bookId, Integer memberId) {
+    public void validateLoanCreation(Integer bookId, Integer memberId) {
         validateMemberFineStatus(memberId);
         validateIsBanned(memberId);
         validateMemberDoesNotHaveSameBookLoaned(bookId, memberId);
-        return validateBookAvailability(bookId);
+         validateBookAvailability(bookId);
     }
 
     // member engellenmiş mi ?

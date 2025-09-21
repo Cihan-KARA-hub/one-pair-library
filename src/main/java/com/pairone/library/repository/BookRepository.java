@@ -28,5 +28,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             @Param("title") String title,
             @Param("author") String author,
             @Param("available") Boolean available,
-            Pageable pageable);;
+            Pageable pageable);
+
 }

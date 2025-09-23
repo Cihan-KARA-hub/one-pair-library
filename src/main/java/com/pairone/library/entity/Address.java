@@ -1,6 +1,7 @@
 package com.pairone.library.entity;
 
 import jakarta.persistence.*;
+
 // yapıldı
 @Entity
 @Table(name = "address")
@@ -28,34 +29,26 @@ public class Address {
     @Column(name = "building")
     private String building;
     @Column(name = "apartment_no")
-    private String apartment_no;
+    private String apartmentNo;
 
     public Address() {
     }
 
-    public Address(int id, String street, String city, String district, String neighborhood, String building, String apartment_no) {
+    public Address(Integer id, String street, String city, String district, String neighborhood, String building, String apartmentNo) {
         this.id = id;
         this.street = street;
         this.city = city;
         this.district = district;
         this.neighborhood = neighborhood;
         this.building = building;
-        this.apartment_no = apartment_no;
+        this.apartmentNo = apartmentNo;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -65,6 +58,14 @@ public class Address {
 
     public void setStreet(String street) {
         this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getDistrict() {
@@ -91,23 +92,12 @@ public class Address {
         this.building = building;
     }
 
-    public String getApartment_no() {
-        return apartment_no;
-    }
-
-    public void setApartment_no(String apartment_no) {
-        this.apartment_no = apartment_no;
-    }
-
-
-    public Integer getAddressId() {
-        return null;
+    public String getApartmentNo() {
+        return apartmentNo;
     }
 
     public void setApartmentNo(String apartmentNo) {
+        this.apartmentNo = apartmentNo;
     }
 
-    public String getApartmentNo() {
-        return null;
-    }
 }

@@ -1,7 +1,7 @@
 package com.pairone.library.service;
 
-import com.pairone.library.dto.address.AddressRequest;
-import com.pairone.library.dto.address.AddressResponse;
+import com.pairone.library.dto.address.request.AddressCreateRequest;
+import com.pairone.library.dto.address.response.AddressResponse;
 import com.pairone.library.entity.Address;
 import com.pairone.library.repository.AddressRepository;
 import com.pairone.library.rules.AddressBusinessRules;
@@ -23,7 +23,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressResponse createAddress(AddressRequest request) {
+    public AddressResponse createAddress(AddressCreateRequest request) {
         // Business rule kontrolü
         addressBusinessRules.checkCityAndDistrict(request.getCity(), request.getDistrict());
 
@@ -46,7 +46,7 @@ public class AddressServiceImpl implements AddressService {
 
 
     @Override
-    public AddressResponse updateAddress(Integer id, AddressRequest request) {
+    public AddressResponse updateAddress(Integer id, AddressCreateRequest request) {
         return null;
     }
 

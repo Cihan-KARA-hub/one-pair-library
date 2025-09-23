@@ -1,6 +1,6 @@
 package com.pairone.library.controller;
 
-import com.pairone.library.dto.role.RoleRequest;
+import com.pairone.library.dto.role.RoleCreateRequest;
 import com.pairone.library.dto.role.RoleResponse;
 import com.pairone.library.service.abstractservice.RoleService;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +18,12 @@ public class RoleController {
     }
 
     @PostMapping
-    public RoleResponse create(@Valid @RequestBody RoleRequest request) {
+    public RoleResponse create(@Valid @RequestBody RoleCreateRequest request) {
         return roleService.createRole(request);
     }
 
     @PutMapping("/{id}")
-    public RoleResponse update(@PathVariable Integer id, @Valid @RequestBody RoleRequest request) {
+    public RoleResponse update(@PathVariable Integer id, @Valid @RequestBody RoleCreateRequest request) {
         return roleService.updateRole(id, request);
     }
 

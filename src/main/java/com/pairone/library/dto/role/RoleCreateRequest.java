@@ -4,7 +4,7 @@ import com.pairone.library.entity.enums.RoleType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class RoleRequest {
+public class RoleCreateRequest {
     @NotNull
     private RoleType type;
 

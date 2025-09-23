@@ -10,28 +10,22 @@ import com.pairone.library.entity.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-
+import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
+    MemberMapper INSTANCE = Mappers.getMapper(MemberMapper.class);
 
-    Member memberCreateRequestDtoMapToEntity(MemberCreateRequestDto responseDto);
+    @Mapping(target = "address", source = "address.id")
+    @Mapping(target = "role", source = "role.roleId" )
+    MemberListDto entityMapToListMember(Member member);
+    @Mapping(target = "address", source = "address")
+    @Mapping(target = "role", source = "role" )
+    @Mapping(target = "id", ignore = true) // Member.id veritabanı tarafından oluşturulacak
+    Member memberCreateRequestDtoMapToEntity(MemberCreateRequestDto dto, Address address, Role role);
 
     MemberCreateResponseDto entityMapToMemberCreateResponse(Member member);
-    @Mapping(target = "addressId", source = "addressId", qualifiedByName = "mapAddress")
-    @Mapping(target = "roleId", source = "roleId", qualifiedByName = "mapRole")
-    MemberListDto entityMapToListMember(Member member);
-
-    // Address -> Integer id
-    @Named("mapAddress")
-    default Integer mapAddress(Address address) {
-        return (address != null) ? address.getId() : null;
-    }
-
-    // Role -> Integer id
-    @Named("mapRole")
-    default Integer mapRole(Role role) {
-        return (role != null) ? role.getRoleId() : null;
-    }
 
     MemberGetResponseDto entityMapToMemberGetResponseDto(Member member);
 }
+
+

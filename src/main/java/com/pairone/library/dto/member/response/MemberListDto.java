@@ -2,8 +2,8 @@ package com.pairone.library.dto.member.response;
 
 
 public class MemberListDto {
-    private Integer addressId;
-    private int roleId;
+    private Integer address;
+    private int role;
     private String eMail;
     private String phone;
     private String firstname;
@@ -12,29 +12,29 @@ public class MemberListDto {
     public MemberListDto() {
     }
 
-    public MemberListDto(int addressId, int roleId, String eMail, String phone, String firstname, String lastname) {
-        this.addressId = addressId;
-        this.roleId = roleId;
+    public MemberListDto(Integer address, int roleId, String eMail, String phone, String firstname, String lastname) {
+        this.address = address;
+        this.role = roleId;
         this.eMail = eMail;
         this.phone = phone;
         this.firstname = firstname;
         this.lastname = lastname;
     }
 
-    public int getAddressId() {
-        return addressId;
+    public Integer getAddress() {
+        return address;
     }
 
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
+    public void setAddress(Integer address) {
+        this.address = address;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public int getRole() {
+        return role;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setRole(int roleId) {
+        this.role = roleId;
     }
 
     public String geteMail() {

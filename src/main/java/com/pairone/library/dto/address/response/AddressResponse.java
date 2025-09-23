@@ -1,18 +1,21 @@
-package com.pairone.library.dto.address;
+package com.pairone.library.dto.address.response;
 
-import jakarta.validation.constraints.NotBlank;
-
-public class AddressRequest {
-    @NotBlank
+public class AddressResponse {
+    private Integer addressId;
     private String city;
-
-    @NotBlank
     private String district;
-
     private String street;
     private String neighborhood;
     private String building;
     private String apartmentNo;
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
 
     public String getCity() {
         return city;

@@ -1,7 +1,7 @@
 package com.pairone.library.controller;
 
-import com.pairone.library.dto.address.AddressRequest;
-import com.pairone.library.dto.address.AddressResponse;
+import com.pairone.library.dto.address.request.AddressCreateRequest;
+import com.pairone.library.dto.address.response.AddressResponse;
 import com.pairone.library.service.abstractservice.AddressService;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
@@ -18,12 +18,12 @@ public class AddressController {
     }
 
     @PostMapping
-    public AddressResponse create(@Valid @RequestBody AddressRequest request) {
+    public AddressResponse create(@Valid @RequestBody AddressCreateRequest request) {
         return addressService.createAddress(request);
     }
 
     @PutMapping("/{id}")
-    public AddressResponse update(@PathVariable Integer id, @Valid @RequestBody AddressRequest request) {
+    public AddressResponse update(@PathVariable Integer id, @Valid @RequestBody AddressCreateRequest request) {
         return addressService.updateAddress(id, request);
     }
 

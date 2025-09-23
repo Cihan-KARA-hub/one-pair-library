@@ -1,42 +1,19 @@
 package com.pairone.library.dto.member.request;
 
-import com.pairone.library.entity.Address;
-import com.pairone.library.entity.Role;
+import com.pairone.library.dto.address.request.AddressCreateRequest;
+import com.pairone.library.dto.role.RoleCreateRequest;
 import com.pairone.library.entity.enums.MembershipLevel;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
 public class MemberCreateRequestDto {
     @NotNull
-    private Address address;
+    private AddressCreateRequest address;
     @NotNull
-    private Role role;
-    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
-    private String eMail;
-    @Size(min = 11, max = 11)
-    private String phone;
-    private String firstname;
-    private String lastname;
-    @NotNull
-    private MembershipLevel members;
-
-    public @NotNull Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(@NotNull Address address) {
-        this.address = address;
-    }
-
-    public @NotNull Role getRole() {
-        return role;
-    }
-
-    public void setRole(@NotNull Role role) {
-        this.role = role;
-    }
+    private RoleCreateRequest role;
 
     public @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}") String geteMail() {
         return eMail;
@@ -46,6 +23,38 @@ public class MemberCreateRequestDto {
         this.eMail = eMail;
     }
 
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
+    private String eMail;
+    @Size(min = 11, max = 11)
+    private String phone;
+    @NotBlank
+    private String firstname;
+    @NotBlank
+    private String lastname;
+    @NotNull
+    private MembershipLevel membersShipLevel;
+    public MemberCreateRequestDto() {
+    }
+
+
+
+    public @NotNull RoleCreateRequest getRole() {
+        return role;
+    }
+
+    public void setRole(@NotNull RoleCreateRequest role) {
+        this.role = role;
+    }
+
+    public @NotNull AddressCreateRequest getAddress() {
+        return address;
+    }
+
+    public void setAddress(@NotNull AddressCreateRequest address) {
+        this.address = address;
+    }
+
+
     public @Size(min = 11, max = 11) String getPhone() {
         return phone;
     }
@@ -54,27 +63,28 @@ public class MemberCreateRequestDto {
         this.phone = phone;
     }
 
-    public String getFirstname() {
+    public @NotBlank String getFirstname() {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
+    public void setFirstname(@NotBlank String firstname) {
         this.firstname = firstname;
     }
 
-    public String getLastname() {
+    public @NotBlank String getLastname() {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    public void setLastname(@NotBlank String lastname) {
         this.lastname = lastname;
     }
 
-    public @NotNull MembershipLevel getMembers() {
-        return members;
+    public @NotNull MembershipLevel getMembersShipLevel() {
+        return membersShipLevel;
     }
 
-    public void setMembers(@NotNull MembershipLevel members) {
-        this.members = members;
+    public void setMembersShipLevel(@NotNull MembershipLevel membersShipLevel) {
+        this.membersShipLevel = membersShipLevel;
     }
+
 }

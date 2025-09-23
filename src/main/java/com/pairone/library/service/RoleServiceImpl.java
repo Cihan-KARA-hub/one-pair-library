@@ -1,6 +1,6 @@
 package com.pairone.library.service;
 import com.pairone.library.entity.Role;
-import com.pairone.library.dto.role.RoleRequest;
+import com.pairone.library.dto.role.RoleCreateRequest;
 import com.pairone.library.dto.role.RoleResponse;
 import com.pairone.library.entity.enums.RoleType;
 import com.pairone.library.repository.RoleRepository;
@@ -23,7 +23,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleResponse createRole(RoleRequest request) {
+    public RoleResponse createRole(RoleCreateRequest request) {
         // Business rules çağrılıyor
         roleBusinessRules.checkIfRoleTypeExists(request.getType());
 
@@ -35,7 +35,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleResponse updateRole(Integer id, RoleRequest request) {
+    public RoleResponse updateRole(Integer id, RoleCreateRequest request) {
         Role role = roleRepository.findById(id).orElseThrow();
 
         RoleType newType = request.getType();

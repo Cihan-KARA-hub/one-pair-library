@@ -10,7 +10,7 @@ public class Role {
     private Integer roleId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private RoleType type;
 
     public Role() {}

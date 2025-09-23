@@ -5,7 +5,6 @@ import com.pairone.library.entity.Role;
 public class MemberGetResponseDto {
 
     private Integer id;
-    private Role roleId;
     private String eMail;
     private String phone;
     private String firstname;
@@ -20,13 +19,7 @@ public class MemberGetResponseDto {
         this.id = id;
     }
 
-    public Role getRoleId() {
-        return roleId;
-    }
 
-    public void setRoleId(Role roleId) {
-        this.roleId = roleId;
-    }
 
     public String geteMail() {
         return eMail;

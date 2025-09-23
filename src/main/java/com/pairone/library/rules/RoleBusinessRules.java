@@ -1,6 +1,7 @@
 package com.pairone.library.rules;
 
 import com.pairone.library.core.exception.type.BusinessException;
+import com.pairone.library.entity.Role;
 import com.pairone.library.entity.enums.RoleType;
 import com.pairone.library.repository.RoleRepository;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,10 @@ public class RoleBusinessRules {
     // Kural 1: Role type benzersiz olmalı
     public void checkIfRoleTypeExists(RoleType type) {
         roleRepository.findByType(type).ifPresent(r -> {
-            throw new BusinessException("Bu role zaten mevcut: " + type);
+            throw new BusinessException("This role already exists: " + type);
         });
+    }
+    public Role getRole(RoleType type) {
+        return roleRepository.findByType(type).orElseThrow(()-> new BusinessException("This role does not exist: " + type));
     }
 }

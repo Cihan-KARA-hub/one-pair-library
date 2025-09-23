@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/book")
 public class BookController {
@@ -40,7 +42,7 @@ public class BookController {
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public Page<BookListResponse> getAllBooks(@RequestParam(defaultValue = "5") int size,
+    public List<BookListResponse> getAllBooks(@RequestParam(defaultValue = "5") int size,
                                               @RequestParam(defaultValue = "0") int page) {
         return bookService.getAll(size, page);
     }
@@ -56,7 +58,7 @@ public class BookController {
             ){
         return bookService.getIsbnAndTitleAndAuthorAndAvailable(isbn,title,author,available,size,page);
     }
-    // PATCH /api/books/{id}/copies?delta=+3 (stok artır/azalt)
+
     @PatchMapping("/{id}/copies")
     @ResponseStatus(HttpStatus.OK)
     public void copiesUpdate(@PathVariable Integer id, @RequestParam int copies) {

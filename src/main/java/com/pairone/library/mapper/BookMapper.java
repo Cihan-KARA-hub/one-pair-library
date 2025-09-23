@@ -39,7 +39,18 @@ public interface BookMapper {
 
     BookUpdateResponse EntityToBookUpdateResponse(Book createdBook);
     BookDeleteResponse bookDeleteResponseDto(Book book);
-    BookListResponse entityToBookListResponseDto(Book books);
+    @Mapping(source = "bookinfoId.bookId", target = "bookinfoId")
+    @Mapping(source = "publisher.id", target = "publisher")
+    @Mapping(source = "category.id", target = "category")
+    @Mapping(source = "authors", target = "authors", qualifiedByName = "authorsToIds")
+    BookListResponse entityToBookListResponseDto(Book book);
+
+    @Named("authorsToIds")
+    default Set<Integer> authorsToIds(Set<com.pairone.library.entity.Author> authors) {
+        return authors.stream()
+                .map(com.pairone.library.entity.Author::getId)
+                .collect(Collectors.toSet());
+    }
 
 
     @Named("mapBookInfo")

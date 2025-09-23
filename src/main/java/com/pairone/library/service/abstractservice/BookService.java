@@ -8,6 +8,8 @@ import com.pairone.library.dto.book.response.BookListResponse;
 import com.pairone.library.dto.book.response.BookUpdateResponse;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface BookService {
     BookCreateResponse create(BookCreateRequest req);
 
@@ -15,7 +17,7 @@ public interface BookService {
 
     BookDeleteResponse delete(Integer id);
 
-    Page<BookListResponse> getAll(int size, int page);
+    List<BookListResponse> getAll(int size, int page);
 
     Page<BookListResponse> getIsbnAndTitleAndAuthorAndAvailable(String isbn, String title, String author, Boolean available, int size, int page);
 

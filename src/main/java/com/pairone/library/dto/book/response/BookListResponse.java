@@ -1,10 +1,6 @@
 package com.pairone.library.dto.book.response;
 
 
-import com.pairone.library.entity.Author;
-import com.pairone.library.entity.BookInfo;
-import com.pairone.library.entity.Category;
-import com.pairone.library.entity.Publisher;
 import com.pairone.library.entity.enums.BookStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,30 +18,17 @@ public class BookListResponse {
     @NotNull
     private int editionNo;
     @NotNull
-    private BookInfo bookinfoId;
+    private Integer bookinfoId;
     @NotNull
-    private Publisher publisher;
+    private Integer publisher;
     @NotNull
-    private Category category;
+    private Integer category;
     @NotNull
-    private Set<Author> authors = new HashSet<>();
+    private Set<Integer> authors = new HashSet<>();
     @NotNull
     private BookStatus bookStatus;
 
-    public @NotNull BookStatus getBookStatus() {
-        return bookStatus;
-    }
-
-    public void setBookStatus(@NotNull BookStatus bookStatus) {
-        this.bookStatus = bookStatus;
-    }
-
-    public @NotNull BookInfo getBookinfoId() {
-        return bookinfoId;
-    }
-
-    public void setBookinfoId(@NotNull BookInfo bookinfoId) {
-        this.bookinfoId = bookinfoId;
+    public BookListResponse() {
     }
 
     public @NotNull Integer getId() {
@@ -82,28 +65,44 @@ public class BookListResponse {
         this.editionNo = editionNo;
     }
 
-    public @NotNull Publisher getPublisher() {
+    public @NotNull Integer getBookinfoId() {
+        return bookinfoId;
+    }
+
+    public void setBookinfoId(@NotNull Integer bookinfoId) {
+        this.bookinfoId = bookinfoId;
+    }
+
+    public @NotNull Integer getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(@NotNull Publisher publisher) {
+    public void setPublisher(@NotNull Integer publisher) {
         this.publisher = publisher;
     }
 
-    public @NotNull Category getCategory() {
+    public @NotNull Integer getCategory() {
         return category;
     }
 
-    public void setCategory(@NotNull Category category) {
+    public void setCategory(@NotNull Integer category) {
         this.category = category;
     }
 
-    public @NotNull Set<Author> getAuthors() {
+    public @NotNull Set<Integer> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(@NotNull Set<Author> authors) {
+    public void setAuthors(@NotNull Set<Integer> authors) {
         this.authors = authors;
+    }
+
+    public @NotNull BookStatus getBookStatus() {
+        return bookStatus;
+    }
+
+    public void setBookStatus(@NotNull BookStatus bookStatus) {
+        this.bookStatus = bookStatus;
     }
 }
 

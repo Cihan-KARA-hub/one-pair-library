@@ -1,4 +1,5 @@
 package com.pairone.library.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pairone.library.entity.enums.BookStatus;
 import jakarta.persistence.*;
 import java.util.HashSet;
@@ -25,17 +26,21 @@ public class Book {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookinfo_id", nullable = false)
+    @JsonIgnore
     private BookInfo bookinfoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id", nullable = false)
+    @JsonIgnore
     private Publisher publisher;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private Category category;
 
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Author> authors = new HashSet<>();
 
     @Column(name = "book_status")

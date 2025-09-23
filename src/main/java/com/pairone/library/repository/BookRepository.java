@@ -19,10 +19,12 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
         WHERE (:isbn IS NULL OR bi.isbn = :isbn)
           AND (:title IS NULL OR LOWER(b.name) LIKE LOWER(CONCAT('%', :title, '%')))
           AND (:author IS NULL OR LOWER(a.firstname) LIKE LOWER(CONCAT('%', :author, '%')))
-          AND (:available IS NULL OR\s
-               (:available = true AND b.availableCopies > 0) OR
-               (:available = false AND  bi.totalCopy-bi.availableCopies > 0))
-       \s""")
+          AND (
+               :available IS NULL 
+               OR (:available = true AND b.availableCopies > 0)
+               OR (:available = false AND (bi.totalCopy - bi.availableCopies) > 0)
+          )
+       """)
     Page<Book> searchBooks(
             @Param("isbn") String isbn,
             @Param("title") String title,

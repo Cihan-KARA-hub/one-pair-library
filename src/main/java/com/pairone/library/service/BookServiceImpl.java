@@ -13,10 +13,13 @@ import com.pairone.library.repository.BookRepository;
 import com.pairone.library.rules.*;
 import com.pairone.library.service.abstractservice.BookService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
 
 @Service
 @Validated
@@ -76,11 +79,10 @@ public class BookServiceImpl implements BookService {
         return bookMapper.bookDeleteResponseDto(book);
 
     }
-
-    public Page<BookListResponse> getAll(int size, int page) {
+    public List<BookListResponse> getAll(int size, int page) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Book> bookList = bookBusinessRule.getAll(pageable);
-        return bookList.map(bookMapper::entityToBookListResponseDto);
+        return  bookList.stream().map(bookMapper::entityToBookListResponseDto).toList();
     }
 
     @Override

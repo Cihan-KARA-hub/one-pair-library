@@ -19,12 +19,13 @@ public class PublisherServiceImpl implements PublisherService {
 
     public PublisherServiceImpl(PublisherRepository repository, PublisherMapper publisherMapper) {
         this.repository = repository;
-        this.publisherMapper = publisherMapper;
+        this.publisherMapper = publisherMapper.INSTANCE;
     }
 
     public PublisherResponse create(PublisherCreateRequest request) {
-        Publisher publisher = PublisherMapper.toEntity(request);
-        return PublisherMapper.toResponse(repository.save(publisher));
+        Publisher publisher = publisherMapper.toEntity(request);
+        publisher = repository.save(publisher);
+        return publisherMapper.toResponse(publisher);
     }
 
     public PublisherResponse update(Integer id, PublisherUpdateRequest request) {
@@ -32,20 +33,19 @@ public class PublisherServiceImpl implements PublisherService {
         if (optional.isEmpty()) {
             return null;
         }
-
         Publisher existing = optional.get();
-        PublisherMapper.updateEntity(existing, request);
-        return PublisherMapper.toResponse(repository.save(existing));
+       existing= publisherMapper.updateEntity( request);
+        return publisherMapper.toResponse(repository.save(existing));
     }
 
     public PublisherResponse getById(Integer id) {
         return repository.findById(id)
-                .map(PublisherMapper::toResponse)
+                .map(publisherMapper::toResponse)
                 .orElse(null);
     }
 
     public List<PublisherResponse> getAll() {
-        return repository.findAll().stream().map(PublisherMapper::toResponse).toList();
+        return repository.findAll().stream().map(publisherMapper::toResponse).toList();
     }
 
     public void delete(Integer id) {

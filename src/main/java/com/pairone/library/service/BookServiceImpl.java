@@ -52,7 +52,6 @@ public class BookServiceImpl implements BookService {
         book.setBookinfoId(bookInfoBusinessRule.bookInfoMustExistWithGivenId(req.getBookInfoId()));
         book.setPublisher(publisherBusinessRule.bookServiceGetPublisher(req.getPublisherId()));
         book.setAuthors(authorBusinessRule.findByIds(req.getAuthorId()));
-        bookBusinessRule.findBookIsNotExists(book);
         Book createdBook = bookRepository.save(book);
         return bookMapper.toDto(createdBook);
 

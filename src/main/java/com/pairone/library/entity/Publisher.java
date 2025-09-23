@@ -14,7 +14,7 @@ public class Publisher {
     @Column(name = "publisher_id")
     private Integer id;
 
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 100, unique = true)
     private String name;
     @OneToMany(mappedBy = "publisher")
     @JsonIgnore

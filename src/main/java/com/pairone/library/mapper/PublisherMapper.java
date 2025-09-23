@@ -5,18 +5,17 @@ import com.pairone.library.dto.publisher.Request.PublisherUpdateRequest;
 import com.pairone.library.dto.publisher.Response.PublisherResponse;
 import com.pairone.library.entity.Publisher;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface PublisherMapper {
-    static Publisher toEntity(PublisherCreateRequest request) {
-        return null;
-    }
+    PublisherMapper INSTANCE = Mappers.getMapper(PublisherMapper.class);
 
-    static PublisherResponse toResponse(Publisher save) {
-        return null;
-    }
+     Publisher toEntity(PublisherCreateRequest request);
+    @Mapping(target = "publisherId",source = "id")
+     PublisherResponse toResponse(Publisher save);
 
-    static void updateEntity(Publisher existing, PublisherUpdateRequest request) {
+    Publisher updateEntity(PublisherUpdateRequest request);
 
-    }
 }

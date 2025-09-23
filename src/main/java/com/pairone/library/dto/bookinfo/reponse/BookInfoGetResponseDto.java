@@ -9,6 +9,7 @@ public class BookInfoGetResponseDto {
     private Integer bookId;
     @NotBlank
     private String isbn;
+    private int totalCopy;
     @NotBlank
     private String title;
     @NotBlank
@@ -21,15 +22,13 @@ public class BookInfoGetResponseDto {
     private String condition;
     @NotNull
     @Positive
-    private int copyCount;
+    private int availableCopies;
     @NotBlank
     private String location;
     @NotBlank
     private String barcode;
-
     public BookInfoGetResponseDto() {
     }
-
     public BookInfoGetResponseDto(Integer bookId,
                                   String isbn,
                                   String title,
@@ -37,9 +36,9 @@ public class BookInfoGetResponseDto {
                                   String type,
                                   String language,
                                   String condition,
-                                  int copyCount,
                                   String location,
-                                  String barcode) {
+                                  String barcode,
+                                  int totalCopy) {
         this.bookId = bookId;
         this.isbn = isbn;
         this.title = title;
@@ -47,9 +46,19 @@ public class BookInfoGetResponseDto {
         this.type = type;
         this.language = language;
         this.condition = condition;
-        this.copyCount = copyCount;
         this.location = location;
         this.barcode = barcode;
+        this.totalCopy = totalCopy;
+    }
+
+    @NotNull
+    @Positive
+    public int getAvailableCopies() {
+        return availableCopies;
+    }
+
+    public void setAvailableCopies(@NotNull @Positive int availableCopies) {
+        this.availableCopies = availableCopies;
     }
 
     public @NotNull Integer getBookId() {
@@ -111,11 +120,11 @@ public class BookInfoGetResponseDto {
     @NotNull
     @Positive
     public int getCopyCount() {
-        return copyCount;
+        return availableCopies;
     }
 
     public void setCopyCount(@NotNull @Positive int copyCount) {
-        this.copyCount = copyCount;
+        this.availableCopies = copyCount;
     }
 
     public @NotBlank String getLocation() {
@@ -132,5 +141,13 @@ public class BookInfoGetResponseDto {
 
     public void setBarcode(@NotBlank String barcode) {
         this.barcode = barcode;
+    }
+
+    public int getTotalCopy() {
+        return totalCopy;
+    }
+
+    public void setTotalCopy(int totalCopy) {
+        this.totalCopy = totalCopy;
     }
 }

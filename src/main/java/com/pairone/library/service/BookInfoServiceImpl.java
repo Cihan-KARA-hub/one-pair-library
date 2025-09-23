@@ -35,7 +35,6 @@ public class BookInfoServiceImpl implements BookInfoService {
     public BookInfoCreateResponseDto save(BookInfoCreateRequestDto bookInfo) {
         bookInfoBusinessRule.bookInfoMustNotExistWithGivenId(bookInfo.getIsbn());
         BookInfo info = bookInfoMapper.bookInfoCreateDtoMapToEntity(bookInfo);
-        //kullanılabilir totalden büyük olamaz
         bookInfoBusinessRule.totalCurrentIsGreaterThan(info.getTotalCopy(),info.getAvailableCopies());
         bookInfoRepository.save(info);
         return bookInfoMapper.mapToBookInfoCreateResponseDto(info);
@@ -57,7 +56,7 @@ public class BookInfoServiceImpl implements BookInfoService {
     }
     @Override
     public Page<BookInfoGetResponseDto> getAll(int size ,int page) {
-        Pageable pageable = PageRequest.of(size, page);
+        Pageable pageable = PageRequest.of(page, size);
         Page<BookInfo> info = bookInfoBusinessRule.findAll(pageable);
         return info.map(bookInfoMapper::mapToBookInfoGetResponseDto);
     }

@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/authors")
+@RequestMapping("/api/v1/authors/")
 public class AuthorController {
 
     private final AuthorService authorService;
@@ -25,17 +25,17 @@ public class AuthorController {
         return authorService.createAuthor(dto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public AuthorUpdateResponse updateAuthor(@Valid @RequestBody AuthorUpdateRequest dto) {
         return authorService.updateAuthor(dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public void deleteAuthor(@PathVariable Integer id) {
         authorService.deleteAuthor(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public AuthorGetResponse getAuthorById(@PathVariable Integer id) {
         return authorService.getAuthorById(id);
     }

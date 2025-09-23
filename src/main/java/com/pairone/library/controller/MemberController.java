@@ -48,8 +48,8 @@ public class MemberController {
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public Page<MemberGetResponseDto> getQuery(
-            @Valid @RequestParam(required = false) String email,
-            @Valid @RequestParam(required = false) String status,
+             @RequestParam(required = false) String email,
+             @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "0") int page) {
         return memberServiceImpl.filterQuery(email, status, size, page);

@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/category")
+@RequestMapping("/api/v1/category/")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -33,13 +33,13 @@ public class CategoryController {
         return categoryService.updateCategory(dto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public CategoryGetResponseDto get(@PathVariable Integer id) {
         return categoryService.categoryId(id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public CategoryDeleteResponseDto delete(@PathVariable Integer id) {
         return categoryService.deleteCategory(id);

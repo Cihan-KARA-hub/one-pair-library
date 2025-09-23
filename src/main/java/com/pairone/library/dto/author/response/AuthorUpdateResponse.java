@@ -4,13 +4,13 @@ import jakarta.validation.constraints.NotNull;
 
 public class AuthorUpdateResponse {
     @NotNull
-    private Integer authorId;
+    private Integer id;
 
     public Integer getAuthorId() {
-        return authorId;
+        return id;
     }
 
     public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
+        this.id = authorId;
     }
 }

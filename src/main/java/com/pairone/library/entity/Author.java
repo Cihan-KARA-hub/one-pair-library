@@ -19,6 +19,7 @@ public class Author {
 
     @Column(name = "lastname", length = 35, nullable = false)
     private String lastname;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "author_book",

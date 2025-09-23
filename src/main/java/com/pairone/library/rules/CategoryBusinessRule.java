@@ -5,6 +5,8 @@ import com.pairone.library.entity.Category;
 import com.pairone.library.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class CategoryBusinessRule {
     private final CategoryRepository categoryRepository;
@@ -17,12 +19,12 @@ public class CategoryBusinessRule {
         return categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("data not found"));
     }
 
-    public Category getCategoryMustNotExistWithGivenName(String name) {
-        Category entity = categoryRepository.findByIgnoreCaseName(name).orElseThrow(null);
-        if (entity != null) {
+    public void getCategoryMustNotExistWithGivenName(String name) {
+        Optional<Category> entity = categoryRepository.findByIgnoreCaseName(name);
+        if (entity.isPresent()) {
             throw new BusinessException("cannot be added because data exists");
         }
-        return entity;
+
     }
     public void getCategoryMustNotExistWithGivenId(Integer id) {
         Category entity = categoryRepository.findById(id).orElseThrow(null);

@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/bookInfo")
+@RequestMapping("/api/v1/bookInfo/")
 public class BookInfoController {
 
     private final BookInfoService bookInfoService;
@@ -28,13 +28,12 @@ public class BookInfoController {
     }
 
     @PutMapping()
-    public BookInfoUpdateResponseDto update(
-            @Valid @RequestBody BookInfoUpdateRequestDto dto
+    public BookInfoUpdateResponseDto update(@Valid @RequestBody BookInfoUpdateRequestDto dto
     ) {
         return bookInfoService.update(dto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public BookInfoGetResponseDto getById(@PathVariable Integer id) {
         return bookInfoService.getBookInfo(id);
     }

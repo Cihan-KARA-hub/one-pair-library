@@ -4,24 +4,22 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class AuthorCreateResponse {
-    @NotNull
-    private Integer authorId;
-    @NotBlank
-    private String message;
+    private Integer id;
+    private String firstname;
 
-    public String getMessage() {
-        return message;
+    public @NotNull Integer getId() {
+        return id;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setId(@NotNull Integer id) {
+        this.id = id;
     }
 
-    public Integer getAuthorId() {
-        return authorId;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 }
